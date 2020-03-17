@@ -14,7 +14,7 @@
 	content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 <meta name="description" content="" />
 <meta name="author" content="" />
-<title>Dashboard - SB Admin</title>
+<title>Team Project by 2020 TMC</title>
 <link
 	href="${pageContext.request.contextPath}/resources/resources_main/css/styles.css"
 	rel="stylesheet">
@@ -27,7 +27,7 @@
 </head>
 <body class="sb-nav-fixed">
 	<nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
-		<a class="navbar-brand" href="resources/resources_main/index.html">Start Bootstrap</a>
+		<a class="navbar-brand" href="/app/">Team Mountain Climber</a>
 		<button class="btn btn-link btn-sm order-1 order-lg-0"
 			id="sidebarToggle" href="#">
 			<i class="fas fa-bars"></i>
@@ -57,6 +57,8 @@
 						class="dropdown-item" href="#">Activity Log</a>
 					<div class="dropdown-divider"></div>
 					<a class="dropdown-item" href="resources/resources_main/login.html">Logout</a>
+					<a class="dropdown-item"
+						href="resources/resources_main/register.html">Register</a>
 				</div></li>
 		</ul>
 	</nav>
@@ -74,8 +76,7 @@
 						<div class="sb-sidenav-menu-heading">Interface</div>
 						<a class="nav-link collapsed" href="#" data-toggle="collapse"
 							data-target="#collapseLayouts" aria-expanded="false"
-							aria-controls="collapseLayouts"><div
-								class="sb-nav-link-icon">
+							aria-controls="collapseLayouts"><div class="sb-nav-link-icon">
 								<i class="fas fa-columns"></i>
 							</div> Layouts
 							<div class="sb-sidenav-collapse-arrow">
@@ -84,15 +85,16 @@
 						<div class="collapse" id="collapseLayouts"
 							aria-labelledby="headingOne" data-parent="#sidenavAccordion">
 							<nav class="sb-sidenav-menu-nested nav">
-								<a class="nav-link" href="resources/resources_main/layout-static.html">Static
-									Navigation</a><a class="nav-link" href="resources/resources_main/layout-sidenav-light.html">Light
+								<a class="nav-link"
+									href="resources/resources_main/layout-static.html">Static
+									Navigation</a><a class="nav-link"
+									href="resources/resources_main/layout-sidenav-light.html">Light
 									Sidenav</a>
 							</nav>
 						</div>
 						<a class="nav-link collapsed" href="#" data-toggle="collapse"
 							data-target="#collapsePages" aria-expanded="false"
-							aria-controls="collapsePages"><div
-								class="sb-nav-link-icon">
+							aria-controls="collapsePages"><div class="sb-nav-link-icon">
 								<i class="fas fa-book-open"></i>
 							</div> Pages
 							<div class="sb-sidenav-collapse-arrow">
@@ -145,7 +147,8 @@
 						<a class="nav-link" href="resources/resources_main/charts.html"><div
 								class="sb-nav-link-icon">
 								<i class="fas fa-chart-area"></i>
-							</div> Charts</a><a class="nav-link" href="resources/resources_main/tables.html"><div
+							</div> Charts</a><a class="nav-link"
+							href="resources/resources_main/tables.html"><div
 								class="sb-nav-link-icon">
 								<i class="fas fa-table"></i>
 							</div> Tables</a>
@@ -164,7 +167,7 @@
 					<ol class="breadcrumb mb-4">
 						<li class="breadcrumb-item active">Dashboard</li>
 					</ol>
-					<div class="row">
+					<!-- 					<div class="row">
 						<div class="col-xl-3 col-md-6">
 							<div class="card bg-primary text-white mb-4">
 								<div class="card-body">Primary Card</div>
@@ -218,6 +221,7 @@
 							</div>
 						</div>
 					</div>
+ -->
 					<div class="row">
 						<div class="col-xl-6">
 							<div class="card mb-4">
@@ -225,6 +229,7 @@
 									<i class="fas fa-chart-area mr-1"></i>Area Chart Example
 								</div>
 								<div class="card-body">
+									<p>구글 차트 api를 이용해서 할 부분</p>
 									<canvas id="myAreaChart" width="100%" height="40"></canvas>
 								</div>
 							</div>
@@ -235,6 +240,7 @@
 									<i class="fas fa-chart-bar mr-1"></i>Bar Chart Example
 								</div>
 								<div class="card-body">
+									<p>구글 차트 api를 이용해서 할 부분</p>
 									<canvas id="myBarChart" width="100%" height="40"></canvas>
 								</div>
 							</div>
