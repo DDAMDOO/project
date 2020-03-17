@@ -229,7 +229,7 @@
 									<i class="fas fa-chart-area mr-1"></i>Area Chart Example
 								</div>
 								<div class="card-body">
-									<p>구글 차트 api를 이용해서 할 부분</p>
+									<p>날씨 api를 이용해서 할 부분</p>
 									<canvas id="myAreaChart" width="100%" height="40"></canvas>
 								</div>
 							</div>
@@ -240,7 +240,7 @@
 									<i class="fas fa-chart-bar mr-1"></i>Bar Chart Example
 								</div>
 								<div class="card-body">
-									<p>구글 차트 api를 이용해서 할 부분</p>
+									<p>광고 api를 이용해서 할 부분</p>
 									<canvas id="myBarChart" width="100%" height="40"></canvas>
 								</div>
 							</div>
