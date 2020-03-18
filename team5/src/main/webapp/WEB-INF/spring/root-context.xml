@@ -15,8 +15,6 @@
 			value="jdbc:log4jdbc:mysql://10.10.35.114:1521/mess?allowPublicKeyRetrieval=true&amp;useSSL=false&amp;serverTimezone=UTC" />
 		<property name="username" value="scott"></property>
 		<property name="password" value="tiger"></property>
-
-
 	</bean>
 
 	<!-- Root Context: defines shared resources visible to all other web components -->

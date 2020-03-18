@@ -2,8 +2,6 @@ package com.my.app;
 
 import java.util.Locale;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,7 +13,7 @@ import lombok.extern.slf4j.Slf4j;
  * Handles requests for the application home page.
  */
 
-@Slf4j
+@Slf4j	//로그 사용 하는 어노테이션
 @Controller
 public class HomeController {
 	
