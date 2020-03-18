@@ -1,2 +1,2 @@
 src/main/webapp/resources/WEB-INF/lib/
-*.log4jdbc.log4j2.properties
+*.properties
