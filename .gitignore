@@ -1,2 +1,2 @@
 src/main/webapp/resources/WEB-INF/lib/
-*.properties
+local.properties
