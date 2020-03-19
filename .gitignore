@@ -1,2 +1,6 @@
 src/main/webapp/resources/WEB-INF/lib/
+<<<<<<< HEAD
 *.properties
+=======
+local.properties
+>>>>>>> e5ad17f20a480e99cecd6711449974a3032fcc14
