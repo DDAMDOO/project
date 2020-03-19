@@ -1,7 +1,9 @@
 package com.my.app;
 
+import java.io.PrintWriter;
 import java.util.Locale;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
 
@@ -23,9 +25,10 @@ public class HomeController {
 	
 	@Autowired
 	DataSource dataSource;
+	
 	@Autowired
-	ProdDBHandle dbhandle;
-
+	LeeDBHandle dbhandle;
+	
 	//private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 	
 	/**
@@ -38,12 +41,26 @@ public class HomeController {
 		return "index";
 	}
 	
-	@RequestMapping(value = "/ins", method = RequestMethod.GET)
-	public String insFn(HttpServletResponse response, Model model) {
-		String result = dbhandle.insertAppUser();
-		model.addAttribute("result", result);
-		
-		return "insertstudent";
+	@RequestMapping(value = "/sel", method = RequestMethod.GET)
+	public String assignFn(HttpServletRequest request, Model model) {
+		model.addAttribute("student", request.getParameter("student"));
+		return "seluser";
 	}
-	
+
+	@RequestMapping(value = "/sel1", method = RequestMethod.GET)
+	public void assignFn(HttpServletResponse response, Model model) {
+		response.setContentType("text/html; charset=UTF-8");
+
+		try {
+			PrintWriter out = response.getWriter();
+			String jsonStr = dbhandle.selectUser();
+			if (jsonStr != null) {
+				out.print(jsonStr);
+				out.flush();
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 }

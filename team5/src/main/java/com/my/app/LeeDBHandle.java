@@ -11,7 +11,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 
-public class ProdDBHandle {
+public class LeeDBHandle {
 
 	@Autowired
 	DataSource dataSource;
@@ -43,35 +43,41 @@ public class ProdDBHandle {
 		}
 	}
 
-//	public String selectStudent() {
-//		String sql = "select * from student";
-//		JSONArray arr = new JSONArray();
-//		ResultSet rs = null;
-//
-//		try {
-//			conn = dataSource.getConnection();
-//			pstmt = conn.prepareStatement(sql);
-//
-//			rs = pstmt.executeQuery();
-//
-//			while (rs.next()) {
-//				String name = rs.getString("name");
-//				int age = rs.getInt("age");
-//				String birth = rs.getString("birth");
-//
-//				JSONObject o = new JSONObject();
-//				o.put("name", name);
-//				o.put("age", age);
-//				o.put("birth", birth);
-//
-//				arr.add(o);
-//			}
-//
-//			rs.close();
-//			return arr.toJSONString();
-//		} catch (Exception e) {
-//			System.out.println("Insert error : " + e.getLocalizedMessage());
-//			return null;
-//		}
-//	}
+	public String selectUser() {
+		String sql = "select * from app_user";
+		JSONArray arr = new JSONArray();
+		ResultSet rs = null;
+
+		try {
+			conn = dataSource.getConnection();
+			pstmt = conn.prepareStatement(sql);
+
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				String id = rs.getString("user_id");
+				String pw = rs.getString("pw");
+				String name = rs.getString("user_name");
+				String birth = rs.getString("birth");
+				String email = rs.getString("email");
+				String gender = rs.getString("gender");
+
+				JSONObject o = new JSONObject();
+				o.put("id", id);
+				o.put("pw", pw);
+				o.put("name", name);
+				o.put("birth", birth);
+				o.put("email", email);
+				o.put("gender", gender);
+
+				arr.add(o);
+			}
+
+			rs.close();
+			return arr.toJSONString();
+		} catch (Exception e) {
+			System.out.println("Insert error : " + e.getLocalizedMessage());
+			return null;
+		}
+	}
 }
