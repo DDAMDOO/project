@@ -22,9 +22,12 @@ public class LeeDBHandle {
 	public String insertAppUser(String id, String pw, String name, String birth, String email, String gender) {
 		String sql = "insert into app_user values(?,?,?,?,?,?)";
 		try {
+			
+			System.out.println("insert ready");
+			
 			conn = dataSource.getConnection();
 			pstmt = conn.prepareStatement(sql);
-
+			
 			pstmt.setString(1, id);
 			pstmt.setString(2,pw);
 			pstmt.setString(3,name);
@@ -34,7 +37,9 @@ public class LeeDBHandle {
 			
 			pstmt.execute();
 			conn.close();
-
+			
+			System.out.println("insert fin");
+			
 			return "insert success";
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

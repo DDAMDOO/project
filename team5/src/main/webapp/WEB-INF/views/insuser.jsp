@@ -7,6 +7,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<%@ include file="관련 URL"%>
+	<h1>aa</h1>
 </body>
 </html>
