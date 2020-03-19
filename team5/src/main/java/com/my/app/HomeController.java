@@ -41,6 +41,7 @@ public class HomeController {
 		return "index";
 	}
 	
+	//로그인 select table
 	@RequestMapping(value = "/sel", method = RequestMethod.GET)
 	public String assignFn(HttpServletRequest request, Model model) {
 		model.addAttribute("student", request.getParameter("student"));
@@ -62,5 +63,25 @@ public class HomeController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	
+	//회원가입 insert
+	@RequestMapping(value = "/ins1", method = RequestMethod.GET)
+	public String assign1Fn(HttpServletRequest request, Model model) {
+		try {
+			String name = request.getParameter("inputName");
+			String id = request.getParameter("inputID");
+			String pw = request.getParameter("inputPassword");
+			String birth = request.getParameter("inputBirth");
+			String email = request.getParameter("inputEmailAddress");
+			String gender = request.getParameter("inputGender");
+			
+			dbhandle.insertAppUser(id, pw, name, birth, email, gender);
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return "insuser";
 	}
 }
