@@ -67,15 +67,19 @@ public class HomeController {
 	
 	//회원가입 insert
 	@RequestMapping(value = "/ins1", method = RequestMethod.GET)
-	public String assign1Fn(HttpServletRequest request, Model model) {
+	public String insertFn(HttpServletRequest request, Model model) {
+		System.out.println("insert start");
+		
 		try {
 			String name = request.getParameter("inputName");
 			String id = request.getParameter("inputID");
 			String pw = request.getParameter("inputPassword");
 			String birth = request.getParameter("inputBirth");
 			String email = request.getParameter("inputEmailAddress");
-			String gender = request.getParameter("inputGender");
+			String gender = request.getParameter("gender");
 			
+			System.out.println("ddamdoo "+ name);
+
 			dbhandle.insertAppUser(id, pw, name, birth, email, gender);
 			
 		} catch (Exception e) {
