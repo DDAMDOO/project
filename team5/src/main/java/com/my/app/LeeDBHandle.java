@@ -87,32 +87,60 @@ public class LeeDBHandle {
 	}
 
 	public String loginCheck(String id, String pass) {
-		String sql = "select user_id, pw from app_user where user_id='"+id+"' and pw='"+pass+"'";
+		String sql = "select user_id, pw from app_user where user_id='" + id + "' and pw='" + pass + "'";
 		ResultSet rs = null;
-		System.out.println("아이디 " +id + "비밀번호" +pass);
+		System.out.println("아이디 " + id + "비밀번호" + pass);
 		try {
 			conn = dataSource.getConnection();
 			pstmt = conn.prepareStatement(sql);
 			rs = pstmt.executeQuery();
 
-			if(rs.next()==true) {
+			if (rs.next() == true) {
 				System.out.println("로그인 성공");
+
 				rs.close();
 				pstmt.close();
 				conn.close();
 				return "success";
-			}
-			else {
+			} else {
 				System.out.println("로그인 실패");
 				rs.close();
 				pstmt.close();
 				conn.close();
 				return "fail";
-			}	
+			}
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return "";
+		}
+	}
+
+	public String UpdateInfo(String id, String pw, String name, String birth, String email, String gender) {
+		String sql = "update into app_user values(?,?,?,?,?,?)";
+		try {
+
+			System.out.println("update ready");
+
+			conn = dataSource.getConnection();
+			pstmt = conn.prepareStatement(sql);
+
+			pstmt.setString(1, id);
+			pstmt.setString(2, pw);
+			pstmt.setString(3, name);
+			pstmt.setString(4, birth);
+			pstmt.setString(5, email);
+			pstmt.setString(6, gender);
+
+			pstmt.execute();
+			conn.close();
+
+//			System.out.println("insert fin");
+			return "update success";
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
 		}
 	}
 }
