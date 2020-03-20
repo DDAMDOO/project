@@ -13,7 +13,7 @@
         crossorigin="anonymous"></script>
 </head>
 
-<body class="bg-primary">
+<body class="bg-img">
     <div id="layoutAuthentication">
         <div id="layoutAuthentication_content">
             <main>
@@ -86,17 +86,7 @@
             </main>
         </div>
         <div id="layoutAuthentication_footer">
-            <footer class="py-4 bg-light mt-auto">
-                <div class="container-fluid">
-                    <div class="d-flex align-items-center justify-content-between small">
-                        <div class="text-muted">Copyright &copy; Team Mountain Climber</div>
-                        <div>
-                            <a href="#">Privacy Policy</a>
-                            &middot;
-                            <a href="#">Terms &amp; Conditions</a>
-                        </div>
-                    </div>
-                </div>
+            <footer id="footer" class="py-4 bg-light mt-auto">
             </footer>
         </div>
     </div>
@@ -104,6 +94,11 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"
         crossorigin="anonymous"></script>
     <script src="js/scripts.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#footer").load("content/footer.html")
+        });
+    </script>
 </body>
 
 </html>

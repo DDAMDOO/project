@@ -4379,7 +4379,7 @@ input[type=button].btn-block {
 .card-header {
   padding: 0.75rem 1.25rem;
   margin-bottom: 0;
-  background-color: rgba(0, 0, 0, 0.03);
+  background-color: rgba(85,255,51, 0.03);
   border-bottom: 1px solid rgba(0, 0, 0, 0.125);
 }
 .card-header:first-child {
@@ -4391,7 +4391,7 @@ input[type=button].btn-block {
 
 .card-footer {
   padding: 0.75rem 1.25rem;
-  background-color: rgba(0, 0, 0, 0.03);
+  background-color: rgba(85,255,51, 0.03);
   border-top: 1px solid rgba(0, 0, 0, 0.125);
 }
 .card-footer:last-child {
@@ -6070,6 +6070,12 @@ a.close.disabled {
   background-color: #66ff00 !important;
 }
 
+.bg-img {
+  /* background-color: #007bff !important; */
+  background-image:url("../content/mountain.jpg") !important;
+  background-size: cover;
+}
+
 a.bg-primary:hover, a.bg-primary:focus,
 button.bg-primary:hover,
 button.bg-primary:focus {
@@ -6127,7 +6133,8 @@ button.bg-danger:focus {
 }
 
 .bg-light {
-  background-color: #f8f9fa !important;
+  /* background-color: #f8f9fa !important; */
+    background-color: rgba(0,0,0, 0.3) !important;
 }
 
 a.bg-light:hover, a.bg-light:focus,
@@ -10162,7 +10169,7 @@ body {
 
 .sb-sidenav-dark {
   /* background-color: #212529; */
-  background-color: #99ff99;
+  background-color: #00854a;
   color: rgba(255, 255, 255, 0.5);
 }
 .sb-sidenav-green {
