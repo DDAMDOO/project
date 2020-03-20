@@ -77,8 +77,6 @@ public class HomeController {
 			String birth = request.getParameter("inputBirth");
 			String email = request.getParameter("inputEmailAddress");
 			String gender = request.getParameter("gender");
-			
-			System.out.println("ddamdoo "+ name);
 
 			dbhandle.insertAppUser(id, pw, name, birth, email, gender);
 			
@@ -88,4 +86,21 @@ public class HomeController {
 		}
 		return "insuser";
 	}
-}
+	
+	
+	//로그인 check
+		@RequestMapping(value = "/logincheck", method = RequestMethod.GET)
+		public String checkFn(HttpServletRequest request, Model model) {
+			System.out.println("로그인체크");
+			String id = request.getParameter("inputID");
+			String pw = request.getParameter("inputPassword");
+
+			if(dbhandle.loginCheck(id, pw).equals("success"))
+			{
+				return "loginsuccess";
+			}
+			else {
+				return "loginfail";
+			}
+		}
+}	
