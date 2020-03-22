@@ -26,16 +26,9 @@ public class HomeController {
 
 	@Autowired
 	DataSource dataSource;
-
 	@Autowired
 	LeeDBHandle dbhandle;
 
-	// private static final Logger logger =
-	// LoggerFactory.getLogger(HomeController.class);
-
-	/**
-	 * Simply selects the home view to render by returning its name.
-	 */
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home(Locale locale, Model model) {
 		log.info("Welcome home! The client locale is {}.", locale);
@@ -107,9 +100,10 @@ public class HomeController {
 	}
 
 	// 회원정보 수정
-	@RequestMapping(value = "/update", method = RequestMethod.GET)
-	public void updaetFn(HttpServletRequest request, Model model) {
-		System.out.println("밍밍");
+	@RequestMapping(value = "/update1", method = RequestMethod.GET)
+	public String updateFn(HttpServletRequest request, Model model) {
+		System.out.println("update start");
+
 		try {
 			String name = request.getParameter("inputName");
 			String id = request.getParameter("inputID");
@@ -118,10 +112,14 @@ public class HomeController {
 			String email = request.getParameter("inputEmailAddress");
 			String gender = request.getParameter("gender");
 
+			System.out.println("컨트롤러 로그" + id + " " + pw + " " + name + " " + birth + " " + email + " " + gender);
+			
 			dbhandle.UpdateInfo(id, pw, name, birth, email, gender);
+
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		return "update";
 	}
 }

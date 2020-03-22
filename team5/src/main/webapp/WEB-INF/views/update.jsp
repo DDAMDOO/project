@@ -17,12 +17,12 @@ function recvJson(data) {
 }
 
 function viewFn() {
-	$.getJSON("sel1",recvJson)
+	$.getJSON("update1",recvJson)
 }
 </script>
 </head>
 <body onload="viewFn()">
-<h1>test</h1>
+<h1>update success</h1>
 	<table id="mytable"></table>
 </body>
 </html>
