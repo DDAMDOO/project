@@ -7,7 +7,7 @@
 <title>Insert title here</title>
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 
-<script>
+<script> 
 function recvJson(data) {
 	$("#mytable").append("<tr><th>id</th><th>pw</th><th>name</th><th>birth</th><th>email</th><th>gender</th></tr>")
 	$.each(data, (i, v)=>{

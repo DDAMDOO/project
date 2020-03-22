@@ -87,12 +87,13 @@ public class HomeController {
 	public String checkFn(HttpServletRequest request, Model model) {
 //			System.out.println("로그인체크");
 		HttpSession session = request.getSession();
-
 		String id = request.getParameter("inputID");
 		String pw = request.getParameter("inputPassword");
 
+		session.setAttribute("ses", id);
+
 		if (dbhandle.loginCheck(id, pw).equals("success")) {
-			session.setAttribute("ses", id);
+			System.out.println("세션 : " + session.getAttribute("ses"));
 			return "index";
 		} else {
 			return "resources/resources_main/login.html";
@@ -101,9 +102,11 @@ public class HomeController {
 
 	// 회원정보 수정
 	@RequestMapping(value = "/update1", method = RequestMethod.GET)
-	public String updateFn(HttpServletRequest request, Model model) {
+	public String updateFn(HttpServletRequest request, Model model, HttpSession session) {
 		System.out.println("update start");
 
+		System.out.println("session test"+session.getAttribute("ses"));
+		String ses = (String)session.getAttribute("ses");
 		try {
 			String name = request.getParameter("inputName");
 			String id = request.getParameter("inputID");
@@ -111,10 +114,10 @@ public class HomeController {
 			String birth = request.getParameter("inputBirth");
 			String email = request.getParameter("inputEmailAddress");
 			String gender = request.getParameter("gender");
-
-			System.out.println("컨트롤러 로그" + id + " " + pw + " " + name + " " + birth + " " + email + " " + gender);
 			
-			dbhandle.UpdateInfo(id, pw, name, birth, email, gender);
+			System.out.println("컨트롤러 로그" + id + " " + pw + " " + name + " " + birth + " " + email + " " + gender);
+
+			dbhandle.UpdateInfo(id, pw, name, birth, email, gender, ses);
 
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

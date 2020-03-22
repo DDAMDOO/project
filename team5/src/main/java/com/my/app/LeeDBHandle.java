@@ -116,7 +116,7 @@ public class LeeDBHandle {
 		}
 	}
 
-	public String UpdateInfo(String id, String pw, String name, String birth, String email, String gender) {
+	public String UpdateInfo(String id, String pw, String name, String birth, String email, String gender, String ses) {
 //		String sql = "update app_user set pw = '" + pw + "', name ='" + name + "',birth='" + birth + "',email='" + email
 //				+ "',gender='" + gender + "' where id = '" + id + "';";
 		
