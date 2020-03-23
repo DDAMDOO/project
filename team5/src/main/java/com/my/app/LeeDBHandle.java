@@ -119,16 +119,16 @@ public class LeeDBHandle {
 	public String UpdateInfo(String id, String pw, String name, String birth, String email, String gender, String ses) {
 //		String sql = "update app_user set pw = '" + pw + "', name ='" + name + "',birth='" + birth + "',email='" + email
 //				+ "',gender='" + gender + "' where id = '" + id + "';";
-		
+
 		String sql = "update app_user set pw = ?, user_name =?,birth=?,email=?,gender=? where user_id = ?";
 		try {
 			System.out.println("update ready");
 
 			conn = dataSource.getConnection();
 			pstmt = conn.prepareStatement(sql);
-			
+
 			System.out.println("핸들 로그" + id + " " + pw + " " + name + " " + birth + " " + email + " " + gender);
-			
+
 			pstmt.setString(1, pw);
 			pstmt.setString(2, name);
 			pstmt.setString(3, birth);

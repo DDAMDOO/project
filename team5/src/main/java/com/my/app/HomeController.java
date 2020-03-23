@@ -105,8 +105,8 @@ public class HomeController {
 	public String updateFn(HttpServletRequest request, Model model, HttpSession session) {
 		System.out.println("update start");
 
-		System.out.println("session test"+session.getAttribute("ses"));
-		String ses = (String)session.getAttribute("ses");
+		System.out.println("session test" + session.getAttribute("ses"));
+		String ses = (String) session.getAttribute("ses");
 		try {
 			String name = request.getParameter("inputName");
 			String id = request.getParameter("inputID");
@@ -114,10 +114,11 @@ public class HomeController {
 			String birth = request.getParameter("inputBirth");
 			String email = request.getParameter("inputEmailAddress");
 			String gender = request.getParameter("gender");
-			
-			System.out.println("컨트롤러 로그" + id + " " + pw + " " + name + " " + birth + " " + email + " " + gender);
 
-			dbhandle.UpdateInfo(id, pw, name, birth, email, gender, ses);
+			System.out.println(
+					"컨트롤러 로그 : " + ses + " " + id + " " + pw + " " + name + " " + birth + " " + email + " " + gender);
+
+			dbhandle.UpdateInfo(ses, pw, name, birth, email, gender, ses);
 
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

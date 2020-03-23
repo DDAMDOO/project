@@ -31,8 +31,8 @@
 		<!-- <property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"></property>
 		<property name="url" value="jdbc:oracle:thin:@10.10.35.186:1521:prod"></property> -->
 		<property name="driverClassName" value="net.sf.log4jdbc.sql.jdbcapi.DriverSpy"></property>
-		<property name="url" value="jdbc:log4jdbc:oracle:thin:@172.30.1.14:1521:prod"></property>
-		<!-- <property name="url" value="jdbc:log4jdbc:oracle:thin:@10.10.35.99:1521:prod"></property> -->
+		<!-- <property name="url" value="jdbc:log4jdbc:oracle:thin:@172.30.1.14:1521:prod"></property> -->
+		<property name="url" value="jdbc:log4jdbc:oracle:thin:@10.10.35.99:1521:prod"></property>
 		<property name="username" value="scott"></property>
 		<property name="password" value="tiger"></property>
 	</bean>
