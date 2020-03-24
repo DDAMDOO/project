@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -130,7 +131,23 @@ public class HomeController {
 	
 	@RequestMapping(value = "/test", method = RequestMethod.GET)
 	public String testFn(HttpServletRequest request, Model model) {
-		model.addAttribute("student", request.getParameter("student"));
+		
 		return "map_test";
 	}
+	
+	@RequestMapping(value = "/map", method = RequestMethod.GET)
+	public void map(@RequestParam("mysearch") String search, HttpServletResponse response, Model model) {
+		response.setContentType("text/html; charset=UTF-8");
+		try {
+			PrintWriter out = response.getWriter();
+			String jsonStr = dbhandle.selectMap(search);
+			if(jsonStr != null) {
+				out.print(jsonStr);
+				out.flush();
+			}
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
 }

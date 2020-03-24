@@ -146,4 +146,35 @@ public class LeeDBHandle {
 			return null;
 		}
 	}
+
+	public String selectMap(String climb_code) {
+		String sql = "select lat, lon from climb c, paths p where c.m_name like '%" + climb_code + "%' and c.climb_code = p.climb_code order by c.climb_code";
+		JSONArray arr = new JSONArray();
+		ResultSet rs = null;
+
+		try {
+			conn = dataSource.getConnection();
+			pstmt = conn.prepareStatement(sql);
+
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				Double lat = rs.getDouble("lat");
+				Double lon = rs.getDouble("lon");
+
+				JSONObject o = new JSONObject();
+				o.put("lat", lat);
+				o.put("lon", lon);
+//				System.out.println("로그찍어봄"+lat+" "+lon);
+				arr.add(o);
+			}
+
+			rs.close();
+			return arr.toJSONString();
+		} catch (Exception e) {
+			System.out.println("Insert error : " + e.getLocalizedMessage());
+			return null;
+		}
+	}
+
 }

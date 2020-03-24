@@ -48,7 +48,7 @@
 		<div id="layoutAuthentication_footer">
 			<footer class="py-4 bg-light mt-auto">
 				<%@ include
-					file="../../resources/resources_main/content/footer.html"%>
+					file="../../resources/resources_main/content/footer.jsp"%>
 			</footer>
 		</div>
 	</div>

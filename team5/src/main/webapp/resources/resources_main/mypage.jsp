@@ -39,7 +39,7 @@
 										<div class="form-group">
 											<label class="small mb-1" for="inputID">ID</label> <input
 												class="form-control py-4" name="inputID" id="inputID"
-												type="text" placeholder="Enter id" value="${ses }" disabled />
+												type="text" placeholder="Enter id" value="${sessionScope.ses }" disabled />
 										</div>
 										<div class="form-group">
 											<label class="small mb-1" for="inputEmailAddress">Email</label><input
