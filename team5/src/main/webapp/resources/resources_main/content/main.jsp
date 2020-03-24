@@ -38,9 +38,8 @@
 				<i class="fas fa-table mr-1"></i>Dash Board
 			</div>
 			<div class="card-body">
-				<h1 id="test11">
-					뭔가 들어가는 곳
-				</h1>
+				<%@ include
+					file="../../../WEB-INF/views/map_test.jsp"%>
 			</div>
 		</div>
 	</div>

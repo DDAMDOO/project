@@ -39,9 +39,8 @@
 										<div class="form-group">
 											<label class="small mb-1" for="inputID">ID</label> <input
 												class="form-control py-4" name="inputID" id="inputID"
-												type="text" placeholder="Enter id" value="${ses }" disabled/>
+												type="text" placeholder="Enter id" value="${ses }" disabled />
 										</div>
-									
 										<div class="form-group">
 											<label class="small mb-1" for="inputEmailAddress">Email</label><input
 												class="form-control py-4" name="inputEmailAddress"
@@ -84,7 +83,10 @@
 			</main>
 		</div>
 		<div id="layoutAuthentication_footer">
-			<footer id="footer" class="py-4 bg-light mt-auto"> </footer>
+			<footer id="footer" class="py-4 bg-light mt-auto">
+				<%@ include
+					file="../../resources/resources_main/content/footer.jsp"%>
+			</footer>
 		</div>
 	</div>
 	<script src="https://code.jquery.com/jquery-3.4.1.min.js"
@@ -93,7 +95,7 @@
 		src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"
 		crossorigin="anonymous"></script>
 	<script src="js/scripts.js"></script>
-	<script type="text/javascript">
+	<!-- <script type="text/javascript">
 		$(document).ready(function() {
 			$("#footer").load("content/footer.html")
 		});
@@ -102,9 +104,7 @@
 			$('inputID').val();
 		});
 	</script>
-
-
-
+ -->
 </body>
 
 </html>

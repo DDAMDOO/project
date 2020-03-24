@@ -37,12 +37,12 @@ public class HomeController {
 	}
 
 	// 로그인 select table
+	// 테이블 확인용
 	@RequestMapping(value = "/sel", method = RequestMethod.GET)
 	public String assignFn(HttpServletRequest request, Model model) {
 		model.addAttribute("student", request.getParameter("student"));
 		return "seluser";
 	}
-
 	@RequestMapping(value = "/sel1", method = RequestMethod.GET)
 	public void assignFn(HttpServletResponse response, Model model) {
 		response.setContentType("text/html; charset=UTF-8");
@@ -115,15 +115,22 @@ public class HomeController {
 			String email = request.getParameter("inputEmailAddress");
 			String gender = request.getParameter("gender");
 
-			System.out.println(
-					"컨트롤러 로그 : " + ses + " " + id + " " + pw + " " + name + " " + birth + " " + email + " " + gender);
+//			System.out.println(
+//					"컨트롤러 로그 : " + ses + " " + id + " " + pw + " " + name + " " + birth + " " + email + " " + gender);
 
-			dbhandle.UpdateInfo(ses, pw, name, birth, email, gender, ses);
+			dbhandle.UpdateInfo(ses, pw, name, birth, email, gender);
 
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return "update";
+	}
+	
+	
+	@RequestMapping(value = "/test", method = RequestMethod.GET)
+	public String testFn(HttpServletRequest request, Model model) {
+		model.addAttribute("student", request.getParameter("student"));
+		return "map_test";
 	}
 }

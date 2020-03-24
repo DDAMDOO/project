@@ -28,18 +28,18 @@
 <body class="sb-nav-fixed">
 
 	<nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
-		<%@ include file="../../resources/resources_main/content/topnav.html"%>
+		<%@ include file="../../resources/resources_main/content/topnav.jsp"%>
 	</nav>
 
 	<div id="layoutSidenav">
 		<div id="layoutSidenav_nav">
-			<%@ include file="../../resources/resources_main/content/lefter.html"%>
+			<%@ include file="../../resources/resources_main/content/lefter.jsp"%>
 		</div>
 		<div id="layoutSidenav_content">
-			<%@ include file="../../resources/resources_main/content/main.html"%>
+			<%@ include file="../../resources/resources_main/content/main.jsp"%>
 			<footer class="py-4 bg-light mt-auto">
 				<%@ include
-					file="../../resources/resources_main/content/footer.html"%>
+					file="../../resources/resources_main/content/footer.jsp"%>
 			</footer>
 		</div>
 	</div>
