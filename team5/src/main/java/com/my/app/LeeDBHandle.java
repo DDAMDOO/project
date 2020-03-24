@@ -36,7 +36,6 @@ public class LeeDBHandle {
 			pstmt.setString(6, gender);
 
 			pstmt.execute();
-			conn.close();
 
 			System.out.println("insert fin");
 
@@ -45,6 +44,13 @@ public class LeeDBHandle {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return null;
+		} finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 
@@ -83,6 +89,13 @@ public class LeeDBHandle {
 		} catch (Exception e) {
 			System.out.println("Insert error : " + e.getLocalizedMessage());
 			return null;
+		} finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 
@@ -100,19 +113,24 @@ public class LeeDBHandle {
 
 				rs.close();
 				pstmt.close();
-				conn.close();
 				return "success";
 			} else {
 				System.out.println("로그인 실패");
 				rs.close();
 				pstmt.close();
-				conn.close();
 				return "fail";
 			}
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return "";
+		} finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 
@@ -137,18 +155,25 @@ public class LeeDBHandle {
 			pstmt.setString(6, id);
 
 			pstmt.execute();
-			conn.close();
 
 			return "update success";
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return null;
+		}finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 
-	public String selectMap(String climb_code) {
-		String sql = "select lat, lon from climb c, paths p where c.m_name like '%" + climb_code + "%' and c.climb_code = p.climb_code order by c.climb_code";
+	public String selectMap(String search_name) {
+		String sql = "select lat, lon, c.climb_code from climb c, paths p where c.m_name like '%" + search_name
+				+ "%' and c.climb_code = p.climb_code order by c.climb_code";
 		JSONArray arr = new JSONArray();
 		ResultSet rs = null;
 
@@ -161,10 +186,12 @@ public class LeeDBHandle {
 			while (rs.next()) {
 				Double lat = rs.getDouble("lat");
 				Double lon = rs.getDouble("lon");
+				String climb_code = rs.getString("climb_code");
 
 				JSONObject o = new JSONObject();
 				o.put("lat", lat);
 				o.put("lon", lon);
+				o.put("climb_code",climb_code);
 //				System.out.println("로그찍어봄"+lat+" "+lon);
 				arr.add(o);
 			}
@@ -174,6 +201,13 @@ public class LeeDBHandle {
 		} catch (Exception e) {
 			System.out.println("Insert error : " + e.getLocalizedMessage());
 			return null;
+		} finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 
