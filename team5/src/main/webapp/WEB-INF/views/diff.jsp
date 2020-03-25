@@ -4,38 +4,53 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<title>끼에엑</title>
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script>
 	function recvSal(data) {
-		$("#mytable").append(
-				"<tr><th>산 이름</th><th>산 위치</th><th>산 뀨뀨<</th></tr>")
+		$("#mytable")
+				.append(
+						"<tr><th>산 이름</th><th>산 주소</th><th>등산로 이름</th><th>등산로 길이</th><th>등산 소요시간</th><th>등산로 난이도</th><th>위험 요소</th></tr>")
 		$.each(data, function(i, v) {
 			$("#mytable").append(
-					"<tr><td>" + v.m_name + "</td><td>" + v.m_loc + "</td><td>"
-							+ v.m_lat + "</td></tr>")
+					"<tr><td>" + v.m_name + "</td><td>" + v.m_addr
+							+ "</td><td>" + v.climb_name + "</td><td>"
+							+ v.climb_len + "</td><td>" + v.climb_time
+							+ "</td><td>" + v.climb_diff + "</td><td>"
+							+ v.climb_risk + "</td></tr>")
 		})
 	}
 	function fn() {
 		$('#mytable').empty()
-		s = "search?mysearch=" + $("#myt").val() + "&level="
-				+ $("#selected_id").val()
-		console.log(s)
-		$.getJSON("search?mysearch=" + $("#myt").val() + "&level="
-				+ $("#selected_id").val(), recvSal)
+		$.getJSON("search?mysearch=" + $("#myinput").val() + "&mylevel="
+				+ $("#selected_id").val() + "&mytime="
+				+ $("#selected_time").val(), recvSal)
 	}
 </script>
-
+<!-- 		console.log("시작")
+		$.getJSON('getJson2', function(data) {
+			$.each(data, function(i, item) {
+			});
+		});
+		console.log("끝") -->
 </head>
 <body>
-	난이도를 입력하세요 :
-	<select id="selected_id" name="level">
+	산 이름을 검색하세요 :
+	<input id="myinput" type="text" name="mysearch" size="20">
+	<br> 가능하신 등산 소요시간을 선택하세요 :
+	<select id="selected_time" name="mytime">
 		<option value="none">선택</option>
-		<option value="low">하</option>
-		<option value="medium">중</option>
-		<option value="high">상</option>
+		<option value="low">5분 미만</option>
+		<option value="medium">5분 이상~1시간 미만</option>
+		<option value="high">1시간 이상</option>
 	</select>
-	<br> 검색하실 주소를 입력하세요 :
-	<input id="myt" type="text" name="mysearch" size="20">
+	<br> 난이도를 입력하세요 :
+	<select id="selected_id" name="mylevel">
+		<option value="none">선택</option>
+		<option value="low">쉬움</option>
+		<option value="medium">중간</option>
+	</select>
+	<br>
 	<button onclick="fn()">검색</button>
 	<br>
 	<table id="mytable">

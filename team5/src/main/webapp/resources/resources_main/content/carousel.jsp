@@ -21,22 +21,15 @@
 
 <ul class="cycle-slideshow" data-cycle-slides="li"
 	data-cycle-fx="scrollHorz">
-	<li><img onclick="window.open('http://www.google.com', '_blank')"
-		src="/app/resources/resources_main/img/aa.jpeg" width=200 height=200></li>
-	<li><img onclick="window.open('http://www.google.com', '_blank')"
-		src="/app/resources/resources_main/img/bb.jpeg" width=100 height=100></li>
-	<li><img onclick="window.open('http://www.google.com', '_blank')"
-		src="/app/resources/resources_main/img/cc.jpeg" width=200 height=150></li>
+	<li><img
+		onclick="window.open('https://www.idbins.com/mall/travel/country/MallTraCounSpecial.jsp', '_blank')"
+		src="/app/resources/resources_main/img/db.png" width=750 height=200></li>
+	<li><img
+		onclick="window.open('https://www.hellomont.com/', '_blank')"
+		src="/app/resources/resources_main/img/hellomong.png" width=750
+		height=200></li>
+	<li><img
+		onclick="window.open('https://www.educar.co.kr/w/product/travelLeisure/educarOnedayIntro', '_blank')"
+		src="/app/resources/resources_main/img/thek.PNG" width=750 height=200></li>
+
 </ul>
-<!-- <ul class="cycle-slideshow" data-cycle-slides="li"
-	data-cycle-fx="scrollHorz">
-	<li><a href="http://www.naver.com"> <img
-			src="/app/resources/resources_main/img/aa.jpeg" width=200 height=200>
-	</a></li>
-	<li><a href="http://www.naver.com"> <img
-			src="/app/resources/resources_main/img/bb.jpeg" width=100 height=100>
-	</a></li>
-	<li><a href="http://www.naver.com"> <img
-			src="/app/resources/resources_main/img/cc.jpeg" width=200 height=150>
-	</a></li>
-</ul> -->

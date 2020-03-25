@@ -7,49 +7,33 @@
 <main>
 	<div class="container-fluid">
 		<h1 class="mt-4">TMC</h1>
-		
+
 		<div class="row">
 			<div class="col-xl-6">
 				<div class="card mb-4">
-					<div class="card-header">
-						<i class="fas fa-chart-area mr-1"></i>Area Chart Example
-					</div>
+					<div class="card-header">오늘의 날씨</div>
 					<div class="card-body">
-						<p>날씨 api를 이용해서 할 부분</p>
-						<canvas id="myAreaChart" width="100%" height="40"></canvas>
+						<%@ include file="../../../WEB-INF/views/cityweather.jsp"%>
 					</div>
 				</div>
 			</div>
 			<div class="col-xl-6">
 				<div class="card mb-4">
-					<div class="card-header">
-						<i class="fas fa-chart-bar mr-1"></i>Bar Chart Example
-					</div>
+					<div class="card-header">등산자 보험</div>
 					<div class="card-body">
-						<%@ include
-					file="carousel.jsp"%>
+						<%@ include file="carousel.jsp"%>
 					</div>
 				</div>
 			</div>
 		</div>
-		<div class="card mb-4">
+		<div class="card" style="height:800px; text-align:center;">
 			<div class="card-header">
 				<i class="fas fa-table mr-1"></i>Mountain Info
 			</div>
-			<div class="card-body" style="text-align:center">
-				<%@ include
-					file="../../../WEB-INF/views/map.jsp"%>
+			<div class="card-body">
+				<%@ include file="../../../WEB-INF/views/map.jsp"%>
 			</div>
 		</div>
-		
-		<div class="card mb-4">
-			<div class="card-header">
-				<i class="fas fa-table mr-1"></i>YeHun
-			</div>
-			<div class="card-body" style="text-align:center">
-				<%@ include
-					file="../../../WEB-INF/views/map.jsp"%>
-			</div>
-		</div>
+
 	</div>
 </main>

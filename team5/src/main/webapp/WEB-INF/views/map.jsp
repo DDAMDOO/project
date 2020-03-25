@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>원, 선, 사각형, 다각형 표시하기</title>
+
 
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
@@ -32,9 +32,8 @@
 					Number(arr[i].lat), Number(arr[i].lon))
 			linePaths.push(linePath)
 			
-			if ((i + 1 != null && arr[i].climb_code != arr[i + 1].climb_code)
-					|| (i - 1 >= 0 && arr[i].climb_code != arr[i - 1].climb_code)) {
-				console.log(i - 1, i + 1, arr.length)
+			if (( arr[i + 1] != null && arr[i].climb_code != arr[i+1].climb_code)
+					|| (i - 1 >= 0 && arr[i].climb_code != arr[i-1].climb_code) ) {
 
 				// 지도에 표시할 선을 생성합니다
 				var polyline = new kakao.maps.Polyline({
@@ -44,14 +43,14 @@
 					strokeOpacity : 0.7, // 선의 불투명도 입니다 1에서 0 사이의 값이며 0에 가까울수록 투명합니다
 					strokeStyle : 'solid' // 선의 스타일입니다
 				});
-
+				console.log("ASdf")
 				polyline.setMap(map);
 				
 				if(((i + 1 != null && arr[i].climb_name != arr[i + 1].climb_name)
-						|| (i - 1 >= 0 && arr[i].climb_name != arr[i - 1].climb_name))&&arr[i].climb_name.length>=3){
+						|| (i - 1 >= 0 && arr[i].climb_name != arr[i - 1].climb_name))&&arr[i].climb_name.length>=3&&arr[i].climb_code%2==0){
 					// 마커가 표시될 위치입니다 
 					var markerPosition  = new kakao.maps.LatLng(arr[i].lat, arr[i].lon); 
-
+					console.log("asdf")
 					// 마커를 생성합니다
 					var marker = new kakao.maps.Marker({
 					    position: markerPosition
@@ -71,8 +70,6 @@
 					    removable : iwRemoveable
 					});
 					infowindow.open(map, marker);
-					console.log(cnt)
-					cnt++;
 				}
 				linePaths = [];
 			}
