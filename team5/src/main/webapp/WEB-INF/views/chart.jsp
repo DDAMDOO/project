@@ -39,7 +39,7 @@
 				<div class="card mb-4"
 					style="text-align: center; height: 100%; weight: 100%;">
 					<div class="card-header">
-						<i class="fas fa-chart-bar mr-1"></i>Mountain Accident
+						<h1>Mountain Accident</h1>
 					</div>
 					<div class="card-body" style="text-align:center;">
 						<%@ include file="../../WEB-INF/views/piechart.jsp"%>

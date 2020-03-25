@@ -26,10 +26,8 @@
 				</div>
 			</div>
 		</div>
-		<div class="card" style="height:800px; text-align:center;">
-			<div class="card-header">
-				<i class="fas fa-table mr-1"></i>Mountain Info
-			</div>
+		<div class="card" style="height: 800px; text-align: center;">
+			<div class="card-header">Mountain Info</div>
 			<div class="card-body">
 				<%@ include file="../../../WEB-INF/views/map.jsp"%>
 			</div>

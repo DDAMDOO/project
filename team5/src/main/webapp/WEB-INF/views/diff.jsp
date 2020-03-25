@@ -7,17 +7,44 @@
 <title>끼에엑</title>
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script>
+	function btn_click(a) {
+		console.log(a);
+		location.href = "fav?mycode=" + a;
+	}
 	function recvSal(data) {
 		$("#mytable")
 				.append(
-						"<tr><th>산 이름</th><th>산 주소</th><th>등산로 이름</th><th>등산로 길이</th><th>등산 소요시간</th><th>등산로 난이도</th><th>위험 요소</th></tr>")
-		$.each(data, function(i, v) {
-			$("#mytable").append(
-					"<tr><td>" + v.m_name + "</td><td>" + v.m_addr
-							+ "</td><td>" + v.climb_name + "</td><td>"
-							+ v.climb_len + "</td><td>" + v.climb_time
-							+ "</td><td>" + v.climb_diff + "</td><td>"
-							+ v.climb_risk + "</td></tr>")
+						"<tr><th>산 이름</th><th>산 주소</th><th>등산로 이름</th><th>등산로 길이</th><th>등산 소요시간</th><th>등산로 난이도</th><th>위험 요소</th><th>즐겨찾기 추가/해제</th></tr>")
+		var arr = new Array();
+		$
+				.each(
+						data,
+						function(i, v) {
+							arr[i] = v.climb_code;
+							console.log(arr[i])
+							$("#mytable")
+									.append(
+											"<tr><td>"
+													+ v.m_name
+													+ "</td><td>"
+													+ v.m_addr
+													+ "</td><td>"
+													+ v.climb_name
+													+ "</td><td>"
+													+ v.climb_len
+													+ "</td><td>"
+													+ v.climb_time
+													+ "</td><td>"
+													+ v.climb_diff
+													+ "</td><td>"
+													+ v.climb_risk
+													+ "</td><td><button class=\"btn\" onclick=\"btn_click();\" data-idx=\""
+													+ i
+													+ "\">즐겨찾기 추가/해제</button></td></tr>")
+						})
+		$(".btn").click(function() {
+			var checkBtn = $(this).attr("data-idx");
+			btn_click(arr[checkBtn]);
 		})
 	}
 	function fn() {
@@ -27,12 +54,6 @@
 				+ $("#selected_time").val(), recvSal)
 	}
 </script>
-<!-- 		console.log("시작")
-		$.getJSON('getJson2', function(data) {
-			$.each(data, function(i, item) {
-			});
-		});
-		console.log("끝") -->
 </head>
 <body>
 	산 이름을 검색하세요 :
@@ -55,5 +76,6 @@
 	<br>
 	<table id="mytable">
 	</table>
+	<div></div>
 </body>
 </html>

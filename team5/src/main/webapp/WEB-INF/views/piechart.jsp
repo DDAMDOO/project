@@ -17,7 +17,7 @@
 		var data = google.visualization.arrayToDataTable(adata);
 
 		var options = {
-			title : '도시별 산악사고 통계',
+			title : '',
 			legend : 'none',
 			pieSliceText : 'label',
 		};
@@ -31,7 +31,7 @@
 		var data = google.visualization.arrayToDataTable(adata1);
 
 		var options = {
-			title : '사고 유형별 통계',
+			title : '',
 			legend : 'none',
 			pieSliceText : 'label',
 		};
@@ -74,8 +74,10 @@
 </script>
 </head>
 <body onload="fn()">
-	<div id="piechart" style="width:1000px; height:500px;"></div>
-	<div id="piechart1" style="width:1000px; height:500px;"></div>
+	<h1>도시별 산악사고 통계</h1>
+	<div id="piechart" style="width: 1000px; height: 500px;"></div>
+	<h1>사고 유형별 통계</h1>
+	<div id="piechart1" style="width: 1000px; height: 500px;"></div>
 
 
 </body>

@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -49,7 +51,7 @@ public class HomeController {
 		model.addAttribute("student", request.getParameter("student"));
 		return "seluser";
 	}
-	
+
 	@RequestMapping(value = "/sel1", method = RequestMethod.GET)
 	public void assignFn(HttpServletResponse response, Model model) {
 		response.setContentType("text/html; charset=UTF-8");
@@ -132,181 +134,205 @@ public class HomeController {
 		}
 		return "update";
 	}
-	
-	
+
 	@RequestMapping(value = "/mapinfo", method = RequestMethod.GET)
 	public String testFn(HttpServletRequest request, Model model) {
-		
+
 		return "mountain";
 	}
-	
+
 	@RequestMapping(value = "/map", method = RequestMethod.GET)
 	public void map(@RequestParam("mysearch") String search, HttpServletResponse response, Model model) {
 		response.setContentType("text/html; charset=UTF-8");
 		try {
 			PrintWriter out = response.getWriter();
 			String jsonStr = dbhandle.selectMap(search);
-			if(jsonStr != null) {
+			if (jsonStr != null) {
 				out.print(jsonStr);
 				out.flush();
 			}
-		}catch(Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-	
-	//예훈
+
+	// 예훈
 	@RequestMapping(value = "/diff", method = RequestMethod.GET)
 	public String diffFn(HttpServletRequest request, Model model) {
-		
+
 		return "diff";
 	}
-	
+
 	@RequestMapping(value = "/search", method = RequestMethod.GET)
-	public void search(@RequestParam("mysearch") String search, @RequestParam("mylevel") String level, @RequestParam("mytime") String time, HttpServletResponse response, Model model) {
+	public void search(@RequestParam("mysearch") String search, @RequestParam("mylevel") String level,
+			@RequestParam("mytime") String time, HttpServletResponse response, Model model) {
 		response.setContentType("text/html; charset=UTF-8");
 		try {
 			PrintWriter out = response.getWriter();
 			String jsonStr = dbhandle.selectData(search, level, time);
-			if(jsonStr != null) {
+			if (jsonStr != null) {
 				out.print(jsonStr);
 				out.flush();
 			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	@RequestMapping(value = "/fav", method = RequestMethod.GET)
+	public void fav(@RequestParam("mycode") String code, HttpServletResponse response, HttpSession session) {
+		response.setContentType("text/html; charset=UTF-8");
+		try {
+			dbhandle.changeFav((String)session.getAttribute("ses"), code);
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
 	}
-	
-	
-	//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@선재
-	
+	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@선재
+
 	@RequestMapping(value = "/index", method = RequestMethod.GET)
-	public String weatherInfo(HttpServletResponse response, HttpServletRequest request ,Model model) {
-		//ArrayList<TeamWeatherModel> wArr = new ArrayList<TeamWeatherModel>();
-		ArrayList<TestWeatherModel> tArr = new ArrayList<TestWeatherModel>();
-		ArrayList<String> sArr = new ArrayList<String>();
+	public void weatherInfo(HttpServletResponse response, HttpServletRequest request, Model model) {
+		JSONArray arr = new JSONArray();
+		response.setContentType("text/html; charset=UTF-8");
 		TestWeatherModel rstModel = null;
-		
+		ArrayList<String> sArr = new ArrayList<String>();
+		PrintWriter out = null;
+		String selOne = request.getParameter("selOne");
+
 		try {
-			String url="https://www.weather.go.kr/weather/observation/currentweather.jsp";
-			Document doc =  Jsoup.connect(url).get();
+			String url = "https://www.weather.go.kr/weather/observation/currentweather.jsp";
+			Document doc = Jsoup.connect(url).get();
 			request.setCharacterEncoding("utf-8");
 			Elements element = doc.select("table.table_develop3");
-			for(Element el: element.select("tr > td")) {
+			for (Element el : element.select("tr > td")) {
 				sArr.add(el.text());
 			}
-			for(int i=0; i < sArr.size() ; i+=14) {
-				tArr.add(new TestWeatherModel(sArr.get(i), sArr.get(i+1), sArr.get(i+2), sArr.get(i+3), sArr.get(i+4), sArr.get(i+5), sArr.get(i+6),
-						sArr.get(i+7), sArr.get(i+8), sArr.get(i+9), sArr.get(i+10), sArr.get(i+11), sArr.get(i+12), sArr.get(i+13)));
-			}
-			for(TestWeatherModel t: tArr) {
-				if(request.getParameter("selOne").equals(t.getName())) {
-					rstModel = t;
+			JSONObject o = new JSONObject();
+			for (int i = 0; i < sArr.size(); i += 14) {
+				if (selOne.equals(sArr.get(i))) {
+					o.put("name", sArr.get(i));
+					o.put("temp", sArr.get(i + 5));
+					o.put("chegam", sArr.get(i + 7));
+					o.put("seupdo", sArr.get(i + 10));
+					arr.add(o);
 				}
 			}
-			System.out.println(rstModel);
-			model.addAttribute("rstmodel",rstModel);
+			System.out.println("제이슨 데이터 날라왔니? -> " + arr.toJSONString());
+			out = response.getWriter();
+			out.print(o.toJSONString());
+			out.flush();
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			System.out.println(e.getMessage());
 		}
-		return "cityweather";
 	}
-	
+
 	@RequestMapping(value = "/test33", method = RequestMethod.GET)
 	public void mountainInfo(HttpServletResponse response, HttpServletRequest request, Model model) {
 		String test1 = request.getParameter("selOne");
 		String test2 = request.getParameter("selTwo");
 
-		
 		String url = "http://know.nifos.go.kr/know/service/mtweather/mountListPop.do";
-		
+
 		ArrayList<MountainBaseModel> mArr = new ArrayList<MountainBaseModel>();
 		ArrayList<String> sArr = new ArrayList<String>();
 		ArrayList<MountainDetailModel> mdArr = new ArrayList<MountainDetailModel>();
-		
+
 		try {
 			PrintWriter out = response.getWriter();
-			
+
 			Document doc = Jsoup.connect(url).get();
 			request.setCharacterEncoding("utf-8");
 			Elements element = doc.select("table.tbl_data");
-			
-			for(Element el: element.select("tr > td")) {
+
+			for (Element el : element.select("tr > td")) {
 				sArr.add(el.text());
 			}
-			sArr.remove(0); sArr.remove(0);
-			
-			for(int i=0; i < sArr.size() ; i+=3) {
-				mArr.add(new MountainBaseModel(sArr.get(i), sArr.get(i+1), sArr.get(i+2)) );
+			sArr.remove(0);
+			sArr.remove(0);
+
+			for (int i = 0; i < sArr.size(); i += 3) {
+				mArr.add(new MountainBaseModel(sArr.get(i), sArr.get(i + 1), sArr.get(i + 2)));
 			}
-			
+
 			// localArea 숫가 지역 매핑
-			String userArea =  request.getParameter("selOne");
+			String userArea = request.getParameter("selOne");
 			int localArea = -100;
-			
-			if(userArea.equals("seoul")) localArea = 1;
-			else if(userArea.equals("pusan")) localArea = 3;
-			else if(userArea.equals("daejeon")) localArea = 7;
-			else if(userArea.equals("ulsan")) localArea = 8;
-			else if(userArea.equals("gyeonggi")) localArea = 9;
-			else if(userArea.equals("gangwon")) localArea = 10;
-			else if(userArea.equals("chungnam")) localArea = 11;
-			else if(userArea.equals("chungbuk")) localArea = 12;
-			else if(userArea.equals("jeonnam")) localArea = 13;
-			else if(userArea.equals("jeonbuk")) localArea = 14;
-			else if(userArea.equals("gyeongnam")) localArea = 15;
-			else if(userArea.equals("gyeongbuk")) localArea = 16;
-			else if(userArea.equals("jeju")) localArea = 17;
+
+			if (userArea.equals("seoul"))
+				localArea = 1;
+			else if (userArea.equals("pusan"))
+				localArea = 3;
+			else if (userArea.equals("daejeon"))
+				localArea = 7;
+			else if (userArea.equals("ulsan"))
+				localArea = 8;
+			else if (userArea.equals("gyeonggi"))
+				localArea = 9;
+			else if (userArea.equals("gangwon"))
+				localArea = 10;
+			else if (userArea.equals("chungnam"))
+				localArea = 11;
+			else if (userArea.equals("chungbuk"))
+				localArea = 12;
+			else if (userArea.equals("jeonnam"))
+				localArea = 13;
+			else if (userArea.equals("jeonbuk"))
+				localArea = 14;
+			else if (userArea.equals("gyeongnam"))
+				localArea = 15;
+			else if (userArea.equals("gyeongbuk"))
+				localArea = 16;
+			else if (userArea.equals("jeju"))
+				localArea = 17;
 			else
 				System.out.println("localArea default 들어감. 선택해줘야 함");
-			
-			int obsid =dbhandle.selectMountNum(test2);
-			System.out.println(obsid);
+
+			int obsid = dbhandle.selectMountNum(test2);
+
 			// 산악기상데이터 API
 			String apiUrl = "http://know.nifos.go.kr/openapi/mtweather/mountListSearch.do?"
-					+ "keyValue=fCls08WS8%2BM1vGhZ79C0Yh2E%2Bzxa6XhdFviV3vJfSi4%3D&version=1.0&"
-					+ "localArea=" + localArea
-					+ "&obsid=" + obsid;
-			
+					+ "keyValue=fCls08WS8%2BM1vGhZ79C0Yh2E%2Bzxa6XhdFviV3vJfSi4%3D&version=1.0&" + "localArea="
+					+ localArea + "&obsid=" + obsid;
+
 			doc = Jsoup.connect(apiUrl).get();
 			request.setCharacterEncoding("utf-8");
 			Elements mountainInfo = doc.select("outputData");
-			
-			for(Element item : mountainInfo) {
 
-				String changeForm ="";
-				for(int i = 0; i<item.selectFirst("wd2mstr").text().length(); i++) {
-					if(item.selectFirst("wd2mstr").text().charAt(i)=='E') 
+			for (Element item : mountainInfo) {
+
+				String changeForm = "";
+				for (int i = 0; i < item.selectFirst("wd2mstr").text().length(); i++) {
+					if (item.selectFirst("wd2mstr").text().charAt(i) == 'E')
 						changeForm += "동";
-					else if(item.selectFirst("wd2mstr").text().charAt(i)=='W') 
+					else if (item.selectFirst("wd2mstr").text().charAt(i) == 'W')
 						changeForm += "서";
-					else if(item.selectFirst("wd2mstr").text().charAt(i)=='S') 
+					else if (item.selectFirst("wd2mstr").text().charAt(i) == 'S')
 						changeForm += "남";
-					else if(item.selectFirst("wd2mstr").text().charAt(i)=='N') 
+					else if (item.selectFirst("wd2mstr").text().charAt(i) == 'N')
 						changeForm += "북";
 					else {
 						changeForm += "?";
 						System.out.println("이상한 값");
 					}
 				}
-				
-				mdArr.add(new MountainDetailModel( item.selectFirst("tm2m").text() +"˚C",  item.selectFirst("hm2m").text()+"%", item.selectFirst("wd2mstr").text() +"(" + changeForm +"풍)", item.selectFirst("ws2m").text()+"m/s"));
-				System.out.println(item.selectFirst("obsName").text() + ": " + mdArr.get(0));
-				
+
+				mdArr.add(new MountainDetailModel(item.selectFirst("tm2m").text() + "˚C",
+						item.selectFirst("hm2m").text() + "%",
+						item.selectFirst("wd2mstr").text() + "(" + changeForm + "풍)",
+						item.selectFirst("ws2m").text() + "m/s"));
+
 			} // for문 끝
 		} catch (Exception e) {
 			System.out.println("에러메세지: " + e.getMessage());
 		}
 	}
-	
+
 	@RequestMapping(value = "/accpc", method = RequestMethod.GET)
 	public void selectAccidentPerCity(HttpServletResponse response, Model model) {
-		//response.setCharacterEncoding("utf-8");
-		//response.setContentType("utf-8");
+		// response.setCharacterEncoding("utf-8");
+		// response.setContentType("utf-8");
 		response.setContentType("text/html; charset=UTF-8");
-		
-		PrintWriter out=null;
+
+		PrintWriter out = null;
 		try {
 			System.out.println(dbhandle.countPerCity());
 			out = response.getWriter();
@@ -317,14 +343,14 @@ public class HomeController {
 			e.printStackTrace();
 		}
 	}
-	
+
 	@RequestMapping(value = "/accpf", method = RequestMethod.GET)
 	public void selectAccidentPerFactor(HttpServletResponse response, Model model) {
-		//response.setCharacterEncoding("utf-8");
-		//response.setContentType("utf-8");
+		// response.setCharacterEncoding("utf-8");
+		// response.setContentType("utf-8");
 		response.setContentType("text/html; charset=UTF-8");
-		
-		PrintWriter out=null;
+
+		PrintWriter out = null;
 		try {
 			System.out.println(dbhandle.countPerFactor());
 			out = response.getWriter();
@@ -335,24 +361,24 @@ public class HomeController {
 			e.printStackTrace();
 		}
 	}
-	
+
 	@RequestMapping(value = "/testchart", method = RequestMethod.GET)
-	public String chart(HttpServletResponse response, HttpServletRequest request ,Model model) {
+	public String chart(HttpServletResponse response, HttpServletRequest request, Model model) {
 		return "piechart";
 	}
-	
+
 	@RequestMapping(value = "/chart", method = RequestMethod.GET)
-	public String chartFm(HttpServletResponse response, HttpServletRequest request ,Model model) {
+	public String chartFm(HttpServletResponse response, HttpServletRequest request, Model model) {
 		return "chart";
 	}
-	
+
 	@RequestMapping(value = "/mw", method = RequestMethod.GET)
-	public String mountainWeather(HttpServletResponse response, HttpServletRequest request ,Model model) {
+	public String mountainWeather(HttpServletResponse response, HttpServletRequest request, Model model) {
 		return "mountainweather";
 	}
-	
+
 	@RequestMapping(value = "/cw", method = RequestMethod.GET)
-	public String cityWeather(HttpServletResponse response, HttpServletRequest request ,Model model) {
+	public String cityWeather(HttpServletResponse response, HttpServletRequest request, Model model) {
 		return "cityweather";
 	}
 

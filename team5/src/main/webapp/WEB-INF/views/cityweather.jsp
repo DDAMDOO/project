@@ -6,12 +6,10 @@
 <head>
 <title>Test Page</title>
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-
-<!-- <script type="text/javascript"></script> -->
 </head>
 <body>
-	<!-- <form action="index"> -->
-		<select name="selOne" id="selOne" onchange="this.form.submit()">
+	<form action="index">
+		<select name="selOne" id="selOne">
 			<option value="강릉">강릉</option>
 			<option value="강진군">강진</option>
 			<option value="강화">강화</option>
@@ -63,23 +61,33 @@
 			<option value="홍천">홍천</option>
 			<option value="흑산도">흑산도</option>
 		</select>
-<!-- 	</form> -->
-	
-	<c:if test="${!empty rstmodel}">
-	<table>
-			<tr>
-				<th>지역</th>
-				<th>현재온도</th>
-				<th>체감온도</th>
-				<th>습도</th>
-			</tr>
-			<tr>
-				<td>${rstmodel.name}</td>
-				<td>${rstmodel.temp}°C</td>
-				<td>${rstmodel.chegam}°C</td>
-				<td>${rstmodel.seupdo}%</td>
-			</tr>
-		</table>
-	</c:if>
+	</form>
+	<button onclick="weather()" type="button">btn</button>
+	<table id="weatherResult">
+		<tr>
+			<th>지역</th>
+			<th>현재온도</th>
+			<th>체감온도</th>
+			<th>습도</th>
+		</tr>
+		<tr id="weatherResultTr"></tr>
+	</table>
+	<script type="text/javascript">
+		function weatherRecvFn(data) {
+			console.log(data);
+			$("#weatherResultTr").empty();
+			$("#weatherResultTr")
+					.append(
+							'<td>' + data.name + '</td><td>' + data.temp
+									+ '</td><td>' + data.chegam + '</td><td>'
+									+ data.seupdo + '</td>')
+		}
+		
+		function weather(){
+			console.log("fn call...")
+			data = $.getJSON("index?selOne=" + $('#selOne').val(), weatherRecvFn)
+			weatherRecvFn(data);
+		}
+	</script>
 </body>
 </html>

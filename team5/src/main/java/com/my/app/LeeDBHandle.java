@@ -216,8 +216,9 @@ public class LeeDBHandle {
 	}
 
 	public String selectData(String search, String level, String time) {
-		ResultSet rs = null;
 		String sql = "select * from climb A JOIN mountain B on A.m_code = B.m_code where A.m_name like '%";
+		ResultSet rs = null;
+		
 		if(level.equals("none"))
 			sql = sql + search + "%'";
 		else if(level.equals("low"))
@@ -236,6 +237,7 @@ public class LeeDBHandle {
 			pstmt = conn.prepareStatement(sql);
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
+				int climb_code = rs.getInt("climb_code");
 				String m_name = rs.getString("m_name");
 				String m_addr = rs.getString("m_addr");
 				String climb_name = rs.getString("climb_name");
@@ -245,6 +247,7 @@ public class LeeDBHandle {
 				String climb_diff = rs.getString("climb_diff");
 				String climb_risk = rs.getString("climb_risk");
 				JSONObject o = new JSONObject();
+				o.put("climb_code", climb_code);
 				o.put("m_name", m_name);
 				o.put("m_addr", m_addr);
 				o.put("climb_name", climb_name);
@@ -259,7 +262,47 @@ public class LeeDBHandle {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return null;
-		} finally {
+		}finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	public void changeFav(String id, String climb_code) {
+		String sql = "select * from favorite where user_id = ? and climb_code = ?";
+		ResultSet rs = null;
+		
+		try {
+			conn = dataSource.getConnection();
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, id);
+			pstmt.setString(2, climb_code);
+			rs = pstmt.executeQuery();
+			if(rs.next() == false) {
+				String insert_sql = "insert into favorite values (?, ?)";
+				pstmt = conn.prepareStatement(insert_sql);
+				pstmt.setString(1, id);
+				pstmt.setString(2, climb_code);
+				pstmt.execute();
+				//System.out.println("추가 성공");
+				pstmt.close();
+			}
+			else {
+				String delete_sql = "delete from favorite where user_id = ? and climb_code = ?";
+				pstmt = conn.prepareStatement(delete_sql);
+				pstmt.setString(1, id);
+				pstmt.setString(2, climb_code);
+				pstmt.execute();
+				pstmt.close();
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
 			try {
 				conn.close();
 			} catch (SQLException e) {
@@ -345,7 +388,6 @@ public class LeeDBHandle {
 	
 	
 	public int selectMountNum(String m_name) {
-		System.out.println("디비 메소드에 온 값: " +m_name);
 		String sql = "select m_num from mountain where m_name = ?";
 		ResultSet rs = null;
 		try {
@@ -356,7 +398,6 @@ public class LeeDBHandle {
 			rs = pstmt.executeQuery();
 			rs.next();
 			int num = rs.getInt(1);
-			System.out.println("rs에서 가져온값: " + rs.getInt(1));
 			
 			pstmt.close();
 			return num;
@@ -366,5 +407,4 @@ public class LeeDBHandle {
 			return 0;
 		}
 	}
-
 }
