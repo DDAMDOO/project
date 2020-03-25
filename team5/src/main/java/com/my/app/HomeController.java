@@ -33,7 +33,6 @@ public class HomeController {
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home(Locale locale, Model model) {
 		log.info("Welcome home! The client locale is {}.", locale);
-
 		return "index";
 	}
 
@@ -44,10 +43,10 @@ public class HomeController {
 		model.addAttribute("student", request.getParameter("student"));
 		return "seluser";
 	}
+	
 	@RequestMapping(value = "/sel1", method = RequestMethod.GET)
 	public void assignFn(HttpServletResponse response, Model model) {
 		response.setContentType("text/html; charset=UTF-8");
-
 		try {
 			PrintWriter out = response.getWriter();
 			String jsonStr = dbhandle.selectUser();
@@ -97,7 +96,7 @@ public class HomeController {
 			System.out.println("세션 : " + session.getAttribute("ses"));
 			return "index";
 		} else {
-			return "resources/resources_main/login.html";
+			return "resources/resources_main/login.jsp";
 		}
 	}
 
@@ -129,10 +128,10 @@ public class HomeController {
 	}
 	
 	
-	@RequestMapping(value = "/test", method = RequestMethod.GET)
+	@RequestMapping(value = "/mapinfo", method = RequestMethod.GET)
 	public String testFn(HttpServletRequest request, Model model) {
 		
-		return "map_test";
+		return "mountain";
 	}
 	
 	@RequestMapping(value = "/map", method = RequestMethod.GET)
@@ -150,4 +149,25 @@ public class HomeController {
 		}
 	}
 	
+	
+	@RequestMapping(value = "/diff", method = RequestMethod.GET)
+	public String diffFn(HttpServletRequest request, Model model) {
+		
+		return "diff";
+	}
+	
+	@RequestMapping(value = "/search", method = RequestMethod.GET)
+	public void search(@RequestParam("mysearch") String search, @RequestParam("level") String level, HttpServletResponse response, Model model) {
+		response.setContentType("text/html; charset=UTF-8");
+		try {
+			PrintWriter out = response.getWriter();
+			String jsonStr = dbhandle.selectData(search, level);
+			if(jsonStr != null) {
+				out.print(jsonStr);
+				out.flush();
+			}
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
 }

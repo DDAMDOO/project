@@ -161,7 +161,7 @@ public class LeeDBHandle {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return null;
-		}finally {
+		} finally {
 			try {
 				conn.close();
 			} catch (SQLException e) {
@@ -172,8 +172,8 @@ public class LeeDBHandle {
 	}
 
 	public String selectMap(String search_name) {
-		String sql = "select lat, lon, c.climb_code from climb c, paths p where c.m_name like '%" + search_name
-				+ "%' and c.climb_code = p.climb_code order by c.climb_code";
+		String sql = "select lat, lon, c.climb_code, climb_name, climb_diff from climb c, paths p where c.m_name like '%"
+				+ search_name + "%' and c.climb_code = p.climb_code order by c.climb_code";
 		JSONArray arr = new JSONArray();
 		ResultSet rs = null;
 
@@ -187,11 +187,15 @@ public class LeeDBHandle {
 				Double lat = rs.getDouble("lat");
 				Double lon = rs.getDouble("lon");
 				String climb_code = rs.getString("climb_code");
+				String climb_name = rs.getString("climb_name");
+				String climb_diff = rs.getString("climb_diff");
 
 				JSONObject o = new JSONObject();
 				o.put("lat", lat);
 				o.put("lon", lon);
-				o.put("climb_code",climb_code);
+				o.put("climb_code", climb_code);
+				o.put("climb_name", climb_name);
+				o.put("climb_diff", climb_diff);
 //				System.out.println("로그찍어봄"+lat+" "+lon);
 				arr.add(o);
 			}
@@ -211,4 +215,46 @@ public class LeeDBHandle {
 		}
 	}
 
+	public String selectData(String search, String level) {
+		String sql = "";
+		ResultSet rs = null;
+
+		if (level.equals("none"))
+			sql = "select * from climb where m_name like '%" + search + "%'";
+		else if (level.equals("low"))
+			sql = "select * from climb where m_name like '%" + search + "%' and climb_diff='쉬움'";
+		else if (level.equals("medium"))
+			sql = "select * from climb where m_name like '%" + search + "%' and climb_diff='중간'";
+
+		JSONArray arr = new JSONArray();
+		try {
+			conn = dataSource.getConnection();
+			pstmt = conn.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				String m_name = rs.getString("m_name");
+				String m_loc = rs.getString("climb_name");
+				int m_lat = rs.getInt("climb_len");
+				JSONObject o = new JSONObject();
+				o.put("m_name", m_name);
+				o.put("m_loc", m_loc);
+				o.put("m_lat", m_lat);
+				arr.add(o);
+			}
+			rs.close();
+//			System.out.println("조회 성공~~");
+			return arr.toJSONString();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		} finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
 }

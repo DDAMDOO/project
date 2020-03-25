@@ -2,13 +2,12 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ page session="false"%>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 
 <main>
 	<div class="container-fluid">
-		<h1 class="mt-4">Dashboard</h1>
-		<ol class="breadcrumb mb-4">
-			<li class="breadcrumb-item active">Dashboard</li>
-		</ol>
+		<h1 class="mt-4">TMC</h1>
+		
 		<div class="row">
 			<div class="col-xl-6">
 				<div class="card mb-4">
@@ -27,19 +26,29 @@
 						<i class="fas fa-chart-bar mr-1"></i>Bar Chart Example
 					</div>
 					<div class="card-body">
-						<p>광고 api를 이용해서 할 부분</p>
-						<canvas id="myBarChart" width="100%" height="40"></canvas>
+						<%@ include
+					file="carousel.jsp"%>
 					</div>
 				</div>
 			</div>
 		</div>
 		<div class="card mb-4">
 			<div class="card-header">
-				<i class="fas fa-table mr-1"></i>Dash Board
+				<i class="fas fa-table mr-1"></i>Mountain Info
 			</div>
-			<div class="card-body">
+			<div class="card-body" style="text-align:center">
 				<%@ include
-					file="../../../WEB-INF/views/map_test.jsp"%>
+					file="../../../WEB-INF/views/map.jsp"%>
+			</div>
+		</div>
+		
+		<div class="card mb-4">
+			<div class="card-header">
+				<i class="fas fa-table mr-1"></i>YeHun
+			</div>
+			<div class="card-body" style="text-align:center">
+				<%@ include
+					file="../../../WEB-INF/views/map.jsp"%>
 			</div>
 		</div>
 	</div>

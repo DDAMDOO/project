@@ -6072,7 +6072,7 @@ a.close.disabled {
 
 .bg-img {
   /* background-color: #007bff !important; */
-  background-image:url("../content/mountain.jpg") !important;
+  background-image:url("../img/mountain.jpg") !important;
   background-size: cover;
 }
 
