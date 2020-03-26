@@ -34,7 +34,7 @@
 									<form action="../../app" method="GET">
 										<div
 											class="form-group d-flex align-items-center justify-content-between mt-4 mb-0">
-											회원정보가 정상적으로 변경되었습니다.
+											<h3>회원정보가 정상적으로 변경되었습니다.</h3>
 										</div>
 										<button type="submit">Main</button>
 									</form>
@@ -47,8 +47,7 @@
 		</div>
 		<div id="layoutAuthentication_footer">
 			<footer class="py-4 bg-light mt-auto">
-				<%@ include
-					file="../../resources/resources_main/content/footer.jsp"%>
+				<%@ include file="../../resources/resources_main/content/footer.jsp"%>
 			</footer>
 		</div>
 	</div>

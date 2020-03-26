@@ -9,13 +9,11 @@
 				<h3>Menu</h3>
 			</div>
 			<a class="nav-link" href="/app/">
-				<div class="sb-nav-link-icon">
-				</div>MainPage
+				<div class="sb-nav-link-icon"></div>MainPage
 			</a> <a class="nav-link collapsed" href="#" data-toggle="collapse"
 				data-target="#collapseMounts" aria-expanded="false"
 				aria-controls="collapseMounts">
-				<div class="sb-nav-link-icon">
-				</div> Mountain Info
+				<div class="sb-nav-link-icon"></div> Mountain Info
 				<div class="sb-sidenav-collapse-arrow">
 					<i class="fas fa-angle-down"></i>
 				</div>
@@ -31,7 +29,7 @@
 					</a> <a class="nav-link" href="/app/chart">
 						<div class="sb-nav-link-icon"></div>Mountain Accident
 					</a> <a class="nav-link" href="/app/">
-						<div class="sb-nav-link-icon"></div>Mountain Favorite
+						<div class="sb-nav-link-icon"></div>Mountain Recommend
 					</a>
 				</nav>
 			</div>
@@ -40,7 +38,9 @@
 				data-target="#collapsePages" aria-expanded="false"
 				aria-controls="collapsePages">
 				<div class="sb-nav-link-icon"></div> Member Info
-				<div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+				<div class="sb-sidenav-collapse-arrow">
+					<i class="fas fa-angle-down"></i>
+				</div>
 			</a>
 			<div class="collapse" id="collapsePages"
 				aria-labelledby="headingThree" data-parent="#sidenavAccordion">
@@ -54,13 +54,24 @@
 					<div class="collapse" id="pagesCollapseAuth"
 						aria-labelledby="headingOne" data-parent="#sidenavAccordionPages">
 						<nav class="sb-sidenav-menu-nested nav">
-							<a class="nav-link" href="resources/resources_main/login.jsp">Login</a><a
-								class="nav-link" href="resources/resources_main/register.jsp">Register</a>
-							<!-- <a
-								class="nav-link" href="resources/resources_main/password.html">Forgot
-								Password</a> -->
+							<c:choose>
+								<c:when test="${not empty sessionScope.ses}">
+									<a class="nav-link" href="resources/resources_main/mypage.jsp">MyPage</a>
+									<a class="nav-link" href="getfav">My Favorite</a>
+									<a class="nav-link" href="logout">Logout</a>
+								</c:when>
+								<c:otherwise>
+									<a class="nav-link" href="resources/resources_main/login.jsp">Login</a>
+							<a class="nav-link" href="resources/resources_main/register.jsp">Register</a>
+								</c:otherwise>
+							</c:choose>
+
+
 						</nav>
 					</div>
+
+
+					</a>
 				</nav>
 			</div>
 

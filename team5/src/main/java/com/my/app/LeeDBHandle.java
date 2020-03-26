@@ -215,21 +215,24 @@ public class LeeDBHandle {
 		}
 	}
 
+	// 예훈
+	ResultSet rs = null;
+
 	public String selectData(String search, String level, String time) {
 		String sql = "select * from climb A JOIN mountain B on A.m_code = B.m_code where A.m_name like '%";
 		ResultSet rs = null;
-		
-		if(level.equals("none"))
+
+		if (level.equals("none"))
 			sql = sql + search + "%'";
-		else if(level.equals("low"))
-			sql =sql + search + "%' and climb_diff='쉬움'";
-		else if(level.equals("medium"))
-			sql =sql + search + "%' and climb_diff='중간'";
-		if(time.equals("low"))
+		else if (level.equals("low"))
+			sql = sql + search + "%' and climb_diff='쉬움'";
+		else if (level.equals("medium"))
+			sql = sql + search + "%' and climb_diff='중간'";
+		if (time.equals("low"))
 			sql = sql + " and (climb_up + climb_down) >= 0 and (climb_up + climb_down) < 5";
-		else if(time.equals("medium"))
+		else if (time.equals("medium"))
 			sql = sql + " and (climb_up + climb_down) >= 5 and (climb_up + climb_down) < 60";
-		else if(time.equals("high"))
+		else if (time.equals("high"))
 			sql = sql + " and (climb_up + climb_down) >= 60";
 		JSONArray arr = new JSONArray();
 		try {
@@ -257,12 +260,12 @@ public class LeeDBHandle {
 				o.put("climb_risk", climb_risk);
 				arr.add(o);
 			}
-			return arr.toJSONString();	
+			return arr.toJSONString();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return null;
-		}finally {
+		} finally {
 			try {
 				conn.close();
 			} catch (SQLException e) {
@@ -271,38 +274,54 @@ public class LeeDBHandle {
 			}
 		}
 	}
-	
-	public void changeFav(String id, String climb_code) {
+
+	public String changeFav(String id, String climb_code, int mycase) {
 		String sql = "select * from favorite where user_id = ? and climb_code = ?";
-		ResultSet rs = null;
-		
+		int a = 0;
 		try {
 			conn = dataSource.getConnection();
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, id);
 			pstmt.setString(2, climb_code);
 			rs = pstmt.executeQuery();
-			if(rs.next() == false) {
+			while (rs.next()) {
+				a++;
+			}
+			if ((mycase == 1) && (a == 0)) {
+				System.out.println("1");
 				String insert_sql = "insert into favorite values (?, ?)";
 				pstmt = conn.prepareStatement(insert_sql);
 				pstmt.setString(1, id);
 				pstmt.setString(2, climb_code);
 				pstmt.execute();
-				//System.out.println("추가 성공");
+				// System.out.println("추가 성공");
 				pstmt.close();
-			}
-			else {
+				rs.close();
+				return "추가 성공";
+			} else if ((mycase == 1) && (a != 0)) {
+				System.out.println("2");
+				return "이미 있음";
+			} else if ((mycase == 2) && (a != 0)) {
+				System.out.println("3");
 				String delete_sql = "delete from favorite where user_id = ? and climb_code = ?";
 				pstmt = conn.prepareStatement(delete_sql);
 				pstmt.setString(1, id);
 				pstmt.setString(2, climb_code);
 				pstmt.execute();
 				pstmt.close();
+				rs.close();
+				return "삭제 성공";
+			} else if ((mycase == 2) && (a == 0)) {
+				System.out.println("4");
+				return "이미 없음";
+			} else {
+				return "No data";
 			}
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}finally {
+			return "에러";
+		} finally {
 			try {
 				conn.close();
 			} catch (SQLException e) {
@@ -311,54 +330,98 @@ public class LeeDBHandle {
 			}
 		}
 	}
-	
-	
-	//선재
-	
-	public String countPerCity() {
-		//ArrayList<StudentModel> arr = new ArrayList<StudentModel>();
+
+	public String selectFav(String session) {
+		ResultSet rs = null;
+		String sql = "select * from favorite F, climb C, Mountain M where F.climb_code = C.climb_code and C.M_code = M.M_code and user_id = '"
+				+ session + "'";
 		JSONArray arr = new JSONArray();
-		
+		try {
+			conn = dataSource.getConnection();
+			pstmt = conn.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				String m_name = rs.getString("m_name");
+				String m_addr = rs.getString("m_addr");
+				int climb_code = rs.getInt("climb_code");
+				String climb_name = rs.getString("climb_name");
+				double climb_len = rs.getDouble("climb_len");
+				int climb_time = rs.getInt("climb_up") + rs.getInt("climb_down");
+				String climb_time_s = Integer.toString(climb_time);
+				String climb_diff = rs.getString("climb_diff");
+				String climb_risk = rs.getString("climb_risk");
+				JSONObject o = new JSONObject();
+				o.put("m_name", m_name);
+				o.put("m_addr", m_addr);
+				o.put("climb_code", climb_code);
+				o.put("climb_name", climb_name);
+				o.put("climb_len", climb_len * 1000);
+				o.put("climb_time", climb_time_s + "분");
+				o.put("climb_diff", climb_diff);
+				o.put("climb_risk", climb_risk);
+				arr.add(o);
+			}
+			return arr.toJSONString();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		} finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+
+	// 선재
+
+	public String countPerCity() {
+		// ArrayList<StudentModel> arr = new ArrayList<StudentModel>();
+		JSONArray arr = new JSONArray();
+
 		String sql = "select city, (anjeon+siljok+gaein+jonan+gita) from accident_loc order by (anjeon+siljok+gaein+jonan+gita)";
 		ResultSet rs = null;
 		try {
 			conn = dataSource.getConnection();
 			pstmt = conn.prepareStatement(sql);
 			rs = pstmt.executeQuery();
-			
-			while(rs.next()) {
+
+			while (rs.next()) {
 				String acc_city = rs.getString(1);
-				int acc_sum = rs.getInt(2); 
+				int acc_sum = rs.getInt(2);
 				JSONObject o = new JSONObject();
 				o.put("addr", acc_city);
 				o.put("num", acc_sum);
-				
+
 				arr.add(o);
 			}
 			rs.close();
 			System.out.println("조회 성공");
-			
+
 			return arr.toJSONString();
-			
+
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
 			System.out.println("조회 실패");
 			return null;
 		}
 	}
-	
+
 	public String countPerFactor() {
-		//ArrayList<StudentModel> arr = new ArrayList<StudentModel>();
+		// ArrayList<StudentModel> arr = new ArrayList<StudentModel>();
 		JSONArray arr = new JSONArray();
-		
+
 		String sql = "select sum(anjeon), sum(siljok), sum(gaein), sum(jonan), sum(gita) from accident_loc";
 		ResultSet rs = null;
 		try {
 			conn = dataSource.getConnection();
 			pstmt = conn.prepareStatement(sql);
 			rs = pstmt.executeQuery();
-			
-			while(rs.next()) {
+
+			while (rs.next()) {
 				int anjeon = rs.getInt(1);
 				int siljok = rs.getInt(2);
 				int gaein = rs.getInt(3);
@@ -371,22 +434,21 @@ public class LeeDBHandle {
 				o.put("gaein", gaein);
 				o.put("jonan", jonan);
 				o.put("gita", gita);
-				
+
 				arr.add(o);
 			}
 			rs.close();
 			System.out.println("조회 성공");
-			
+
 			return arr.toJSONString();
-			
+
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
 			System.out.println("조회 실패");
 			return null;
 		}
 	}
-	
-	
+
 	public int selectMountNum(String m_name) {
 		String sql = "select m_num from mountain where m_name = ?";
 		ResultSet rs = null;
@@ -394,11 +456,11 @@ public class LeeDBHandle {
 			conn = dataSource.getConnection();
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, m_name);
-			
+
 			rs = pstmt.executeQuery();
 			rs.next();
 			int num = rs.getInt(1);
-			
+
 			pstmt.close();
 			return num;
 		} catch (SQLException e) {

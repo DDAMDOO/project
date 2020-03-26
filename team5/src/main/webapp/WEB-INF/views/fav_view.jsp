@@ -39,10 +39,10 @@
 				<div class="card mb-4"
 					style="text-align: center; height: 100%; weight: 100%;">
 					<div class="card-header">
-						<h3>산악 사고 현황</h3>
+						<h3>즐겨찾기 등록한 산</h3>
 					</div>
 					<div class="card-body" style="text-align:center;">
-						<%@ include file="../../WEB-INF/views/piechart.jsp"%>
+						<%@ include file="../../WEB-INF/views/getfav.jsp"%>
 					</div>
 				</div>
 			</div>

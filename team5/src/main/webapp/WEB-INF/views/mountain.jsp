@@ -39,7 +39,7 @@
 				<div class="card mb-4"
 					style="text-align: center; height: 100%; weight: 100%;">
 					<div class="card-header">
-						<i class="fas fa-chart-bar mr-1"></i>Mountain Info
+						<h3>등산로 정보</h3>
 					</div>
 					<div class="card-body" style="text-align:center;">
 						<%@ include file="../../WEB-INF/views/map.jsp"%>
@@ -53,10 +53,7 @@
 	</div>
 
 	<script src="<c:url value="/resources/resources_main/js/scripts.js"/>"></script>
-	<script
-		src="<c:url value="/resources/resources_main/assets/demo/chart-area-demo.js"/>"></script>
-	<script
-		src="<c:url value="/resources/resources_main/assets/demo/chart-bar-demo.js"/>"></script>
+
 	<script
 		src="<c:url value="/resources/resources_main/assets/demo/datatables-demo.js"/>"></script>
 	<script src="https://code.jquery.com/jquery-3.4.1.min.js"

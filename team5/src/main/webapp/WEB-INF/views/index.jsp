@@ -35,10 +35,12 @@
 			<%@ include file="../../resources/resources_main/content/lefter.jsp"%>
 		</div>
 		<div id="layoutSidenav_content">
-			<%@ include file="../../resources/resources_main/content/main.jsp"%>
+
+			<div class="card-body" style="text-align: center;">
+				<%@ include file="../../resources/resources_main/content/main.jsp"%>
+			</div>
 			<footer class="py-4 bg-light mt-auto">
-				<%@ include
-					file="../../resources/resources_main/content/footer.jsp"%>
+				<%@ include file="../../resources/resources_main/content/footer.jsp"%>
 			</footer>
 		</div>
 	</div>

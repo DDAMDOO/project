@@ -104,8 +104,14 @@ public class HomeController {
 			System.out.println("세션 : " + session.getAttribute("ses"));
 			return "index";
 		} else {
-			return "resources/resources_main/login.jsp";
+			return "resources/resources_main/login";
 		}
+	}
+
+	@RequestMapping(value = "/logout", method = RequestMethod.GET)
+	public String logout(HttpSession session) {
+		session.invalidate(); // userImpl.logout(session);
+		return "redirect:/";
 	}
 
 	// 회원정보 수정
@@ -160,7 +166,7 @@ public class HomeController {
 	@RequestMapping(value = "/diff", method = RequestMethod.GET)
 	public String diffFn(HttpServletRequest request, Model model) {
 
-		return "diff";
+		return "diff_view";
 	}
 
 	@RequestMapping(value = "/search", method = RequestMethod.GET)
@@ -178,15 +184,64 @@ public class HomeController {
 			e.printStackTrace();
 		}
 	}
+
+	
+	@RequestMapping(value = "/getfav", method = RequestMethod.GET)
+	public String s_fromFn3(Locale locale, HttpServletResponse response, HttpServletRequest request, Model model) {
+		return "fav_view";
+	}
+	
 	@RequestMapping(value = "/fav", method = RequestMethod.GET)
-	public void fav(@RequestParam("mycode") String code, HttpServletResponse response, HttpSession session) {
+	public void fav(@RequestParam("mycode") String code, @RequestParam("mycase") int mycase, HttpServletResponse response,  HttpSession session) {
 		response.setContentType("text/html; charset=UTF-8");
+		System.out.println("mycase :" + mycase);
+		String ses1 = (String)session.getAttribute("ses");
 		try {
-			dbhandle.changeFav((String)session.getAttribute("ses"), code);
+			PrintWriter out = response.getWriter();
+			String a = dbhandle.changeFav(ses1, code, mycase);
+			System.out.println("a: " + a);
+			if(!a.equals("에러")) {
+				if(a.equals("추가 성공")) {
+					out.print("추가 되었습니다.");
+					out.flush();
+				}
+				else if(a.equals("삭제 성공")) {
+					out.print("삭제 되었습니다.");
+					out.flush();
+				}
+				else if(a.equals("이미 있음")) {
+					out.print("이미 즐겨찾기에 있는 등산로입니다.");
+					out.flush();
+				}
+				else if(a.equals("이미 없음")){
+					out.print("즐겨찾기에 등록되어 있지 않은 등산로입니다.");
+					out.flush();
+				}
+				else if(a.equals("No data")) {
+					System.out.println("뭐지!!");
+				}
+			}
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
 	}
+	
+	@RequestMapping(value = "/favorite", method = RequestMethod.GET)
+	public void search(HttpServletResponse response, HttpSession session) {
+		response.setContentType("text/html; charset=UTF-8");
+		String ses1 = (String)session.getAttribute("ses");
+		try {
+			PrintWriter out = response.getWriter();
+			String jsonStr = dbhandle.selectFav(ses1);
+			if(jsonStr != null) {
+				out.print(jsonStr);
+				out.flush();
+			}
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@선재
 
 	@RequestMapping(value = "/index", method = RequestMethod.GET)
@@ -216,7 +271,6 @@ public class HomeController {
 					arr.add(o);
 				}
 			}
-			System.out.println("제이슨 데이터 날라왔니? -> " + arr.toJSONString());
 			out = response.getWriter();
 			out.print(o.toJSONString());
 			out.flush();
@@ -368,7 +422,7 @@ public class HomeController {
 	}
 
 	@RequestMapping(value = "/chart", method = RequestMethod.GET)
-	public String chartFm(HttpServletResponse response, HttpServletRequest request, Model model) {
+	public String chartFn(HttpServletResponse response, HttpServletRequest request, Model model) {
 		return "chart";
 	}
 
@@ -382,4 +436,14 @@ public class HomeController {
 		return "cityweather";
 	}
 
+	@RequestMapping(value = "/geo1", method = RequestMethod.GET)
+	public void geo1Fn(HttpServletResponse response, HttpServletRequest request, @RequestParam("lat") String lat,
+			@RequestParam("lon") String lon) {
+		System.out.println(lat + " " + lon);
+	}
+
+	@RequestMapping(value = "/geo", method = RequestMethod.GET)
+	public String geoFn(HttpServletResponse response, HttpServletRequest request) {
+		return "geolocation";
+	}
 }

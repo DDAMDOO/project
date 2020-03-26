@@ -1,3 +1,5 @@
 eclipse.preferences.version=1
+encoding//src/main/webapp/WEB-INF/views/geolocation.jsp=UTF-8
 encoding//src/main/webapp/WEB-INF/views/map.jsp=UTF-8
 encoding//src/main/webapp/WEB-INF/views/piechart.jsp=UTF-8
+encoding//src/main/webapp/resources/resources_main/content/dev_info.jsp=UTF-8
