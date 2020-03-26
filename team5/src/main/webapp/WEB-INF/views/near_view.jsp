@@ -15,7 +15,7 @@
 <meta name="author" content="" />
 <title>Team Project by 2020 TMC</title>
 <link
-	href="${pageContext.request.contextPath}/resources/resources_main/css/styles.css?1"
+	href="${pageContext.request.contextPath}/resources/resources_main/css/styles.css"
 	rel="stylesheet">
 <link
 	href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css"
@@ -38,11 +38,11 @@
 			<div style="text-align: center; height: 100%; weight: 100%;">
 				<div class="card mb-4"
 					style="text-align: center; height: 100%; weight: 100%;">
-					<div class="card-header" style="background-color:rgba(85,255,51, 0.03);">
-						<h3>산 추천</h3>
+					<div class="card-header">
+						<h3>근처 산 정보</h3>
 					</div>
-					<div class="card-body">
-						<%@ include file="../../WEB-INF/views/diff.jsp"%>
+					<div class="card-body" style="text-align:center;">
+						<%@ include file="../../WEB-INF/views/geolocation.jsp"%>
 					</div>
 				</div>
 			</div>
@@ -61,6 +61,14 @@
 	<script
 		src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"
 		crossorigin="anonymous"></script>
-
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js"
+		crossorigin="anonymous"></script>
+	<script
+		src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"
+		crossorigin="anonymous"></script>
+	<script
+		src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"
+		crossorigin="anonymous"></script>
 </body>
 </html>

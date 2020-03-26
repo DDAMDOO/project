@@ -215,6 +215,54 @@ public class LeeDBHandle {
 		}
 	}
 
+	public String selectNearMountain(Double lat, Double lon) {
+		String sql = "select * from (select pp.m_name, m_addr, lat, lon, sqrt((power(ABS(lat-" + lat
+				+ "),2) + power(ABS(lon - " + lon
+				+ "),2))) as Distance from (select * from climb A join paths B on A.climb_code = B.climb_code where p_sequence IN (select min(p_sequence) from (select * from climb C join (select * from paths where p_sequence IN (select min(p_sequence) from paths group by climb_code)) P on C.climb_code = P.climb_code) group by m_name)) PP join mountain M on PP.m_code = M.m_code order by 5) where rownum <= 10";
+		JSONArray arr = new JSONArray();
+		ResultSet rs = null;
+		try {
+			conn = dataSource.getConnection();
+			pstmt = conn.prepareStatement(sql);
+
+			rs = pstmt.executeQuery();
+
+			System.out.println("로그로그" + lat + " " + lon);
+
+			while (rs.next()) {
+				JSONObject o = new JSONObject();
+
+				String name = rs.getString("m_name");
+				Double lat1 = rs.getDouble("lat");
+				Double lon1 = rs.getDouble("lon");
+
+				o.put("name", name);
+				o.put("lat", lat1);
+				o.put("lon", lon1);
+				arr.add(o);
+			}
+			JSONObject o = new JSONObject();
+			o.put("name", "현재위치");
+			o.put("lat", lat);
+			o.put("lon", lon);
+			arr.add(o);
+
+			
+			rs.close();
+			return arr.toJSONString();
+		} catch (Exception e) {
+			System.out.println("Insert error : " + e.getLocalizedMessage());
+			return null;
+		} finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+
 	// 예훈
 	ResultSet rs = null;
 
@@ -366,6 +414,36 @@ public class LeeDBHandle {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return null;
+		} finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+
+	public String getWeather(String m_name) {
+		String sql = "select m_city, m_num from mountain where m_name like '%" + m_name + "%'";
+		JSONArray arr = new JSONArray();
+		try {
+			conn = dataSource.getConnection();
+			pstmt = conn.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				String m_city = rs.getString("m_city");
+				int m_num = rs.getInt("m_num");
+				JSONObject o = new JSONObject();
+				o.put("m_city", m_city);
+				o.put("m_num", m_num);
+				arr.add(o);
+			}
+			return arr.toJSONString();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return "에러";
 		} finally {
 			try {
 				conn.close();

@@ -12,6 +12,7 @@ import javax.sql.DataSource;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -185,64 +186,174 @@ public class HomeController {
 		}
 	}
 
-	
 	@RequestMapping(value = "/getfav", method = RequestMethod.GET)
 	public String s_fromFn3(Locale locale, HttpServletResponse response, HttpServletRequest request, Model model) {
 		return "fav_view";
 	}
-	
+
 	@RequestMapping(value = "/fav", method = RequestMethod.GET)
-	public void fav(@RequestParam("mycode") String code, @RequestParam("mycase") int mycase, HttpServletResponse response,  HttpSession session) {
+	public void fav(@RequestParam("mycode") String code, @RequestParam("mycase") int mycase,
+			HttpServletResponse response, HttpSession session) {
 		response.setContentType("text/html; charset=UTF-8");
 		System.out.println("mycase :" + mycase);
-		String ses1 = (String)session.getAttribute("ses");
+		String ses1 = (String) session.getAttribute("ses");
 		try {
 			PrintWriter out = response.getWriter();
 			String a = dbhandle.changeFav(ses1, code, mycase);
 			System.out.println("a: " + a);
-			if(!a.equals("에러")) {
-				if(a.equals("추가 성공")) {
+			if (!a.equals("에러")) {
+				if (a.equals("추가 성공")) {
 					out.print("추가 되었습니다.");
 					out.flush();
-				}
-				else if(a.equals("삭제 성공")) {
+				} else if (a.equals("삭제 성공")) {
 					out.print("삭제 되었습니다.");
 					out.flush();
-				}
-				else if(a.equals("이미 있음")) {
+				} else if (a.equals("이미 있음")) {
 					out.print("이미 즐겨찾기에 있는 등산로입니다.");
 					out.flush();
-				}
-				else if(a.equals("이미 없음")){
+				} else if (a.equals("이미 없음")) {
 					out.print("즐겨찾기에 등록되어 있지 않은 등산로입니다.");
 					out.flush();
-				}
-				else if(a.equals("No data")) {
+				} else if (a.equals("No data")) {
 					System.out.println("뭐지!!");
 				}
 			}
-		}catch(Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-	
+
 	@RequestMapping(value = "/favorite", method = RequestMethod.GET)
 	public void search(HttpServletResponse response, HttpSession session) {
 		response.setContentType("text/html; charset=UTF-8");
-		String ses1 = (String)session.getAttribute("ses");
+		String ses1 = (String) session.getAttribute("ses");
 		try {
 			PrintWriter out = response.getWriter();
 			String jsonStr = dbhandle.selectFav(ses1);
-			if(jsonStr != null) {
+			if (jsonStr != null) {
 				out.print(jsonStr);
 				out.flush();
 			}
-		}catch(Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-	
-	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@선재
+
+	@RequestMapping(value = "/mwex", method = RequestMethod.GET)
+	public void mountainInfo(HttpServletResponse response, HttpServletRequest request, Model model) {
+		response.setContentType("text/html; charset=UTF-8");
+		JSONArray arr = new JSONArray();
+		///////////////////////// 한 예 훈@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+		String search = request.getParameter("myinput");
+		String weather = dbhandle.getWeather(search);
+		System.out.println(weather);
+		JSONParser parser = new JSONParser();
+		Object obj;
+		try {
+			obj = parser.parse(weather);
+		} catch (Exception e1) {
+			System.out.println("mwex 에러메세지: " + e1.getMessage());
+			obj = null;
+		}
+		JSONArray j_weather = (JSONArray) obj;
+		PrintWriter out = null;
+		try {
+			out = response.getWriter();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		for (int i = 0; i < j_weather.size(); i++) {
+			JSONObject obj_weather = (JSONObject) j_weather.get(i);
+			String m_city = (String) obj_weather.get("m_city");
+			String temp_num = String.valueOf(obj_weather.get("m_num"));
+			int m_num = Integer.parseInt(temp_num);
+			System.out.println(m_city);
+			System.out.println(m_num);
+			try {
+				request.setCharacterEncoding("utf-8");
+				// localArea 숫가 지역 매핑
+				String userArea = m_city;
+				int localArea = -100;
+				if (userArea.equals("서울특별시"))
+					localArea = 1;
+				else if (userArea.equals("부산광역시"))
+					localArea = 3;
+				else if (userArea.equals("대전광역시"))
+					localArea = 7;
+				else if (userArea.equals("울산광역시"))
+					localArea = 8;
+				else if (userArea.equals("경기도"))
+					localArea = 9;
+				else if (userArea.equals("강원도"))
+					localArea = 10;
+				else if (userArea.equals("충청남도"))
+					localArea = 11;
+				else if (userArea.equals("충청북도"))
+					localArea = 12;
+				else if (userArea.equals("전라남도"))
+					localArea = 13;
+				else if (userArea.equals("전라북도"))
+					localArea = 14;
+				else if (userArea.equals("경상남도"))
+					localArea = 15;
+				else if (userArea.equals("경상북도"))
+					localArea = 16;
+				else if (userArea.equals("제주도"))
+					localArea = 17;
+				else
+					System.out.println("localArea default 들어감. 선택해줘야 함");
+				// 산악기상데이터 API
+				String apiUrl = "http://know.nifos.go.kr/openapi/mtweather/mountListSearch.do?"
+						+ "keyValue=fCls08WS8%2BM1vGhZ79C0Yh2E%2Bzxa6XhdFviV3vJfSi4%3D&version=1.0&" + "localArea="
+						+ localArea + "&obsid=" + m_num;
+				Document doc = Jsoup.connect(apiUrl).get();
+				request.setCharacterEncoding("utf-8");
+				Elements mountainInfo = doc.select("outputData");
+				for (Element item : mountainInfo) {
+					String changeForm = "";
+					for (int j = 0; j < item.selectFirst("wd2mstr").text().length(); j++) {
+						if (item.selectFirst("wd2mstr").text().charAt(j) == 'E')
+							changeForm += "동";
+						else if (item.selectFirst("wd2mstr").text().charAt(j) == 'W')
+							changeForm += "서";
+						else if (item.selectFirst("wd2mstr").text().charAt(j) == 'S')
+							changeForm += "남";
+						else if (item.selectFirst("wd2mstr").text().charAt(j) == 'N')
+							changeForm += "북";
+						else {
+							changeForm += "?";
+							System.out.println("이상한 값");
+						}
+					} // 안쪽포문
+					JSONObject o = new JSONObject();
+					o.put("city", item.selectFirst("obsName").text().substring(0,
+							item.selectFirst("obsName").text().indexOf(' ')));
+					o.put("name",
+							item.selectFirst("obsName").text().substring(
+									item.selectFirst("obsName").text().indexOf(' '),
+									item.selectFirst("obsName").text().length()));
+					o.put("temp", item.selectFirst("tm2m").text());
+					o.put("seupdo", item.selectFirst("hm2m").text());
+					o.put("punghyang", item.selectFirst("wd2mstr").text() + "(" + changeForm + ")");
+					o.put("pungsok", item.selectFirst("ws2m").text());
+					arr.add(o);
+					System.out.println("제이슨 데이터 날라왔니? -> " + arr.toJSONString());
+				} // for문 끝
+			} catch (Exception e) {
+				System.out.println("통합 코드 中 선재꺼 에러메세지: " + e.getMessage());
+			}
+		}
+		try {
+			out = response.getWriter();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		out.print(arr.toJSONString());
+		out.flush();
+	}
+
+	// 선재
 
 	@RequestMapping(value = "/index", method = RequestMethod.GET)
 	public void weatherInfo(HttpServletResponse response, HttpServletRequest request, Model model) {
@@ -276,107 +387,6 @@ public class HomeController {
 			out.flush();
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
-		}
-	}
-
-	@RequestMapping(value = "/test33", method = RequestMethod.GET)
-	public void mountainInfo(HttpServletResponse response, HttpServletRequest request, Model model) {
-		String test1 = request.getParameter("selOne");
-		String test2 = request.getParameter("selTwo");
-
-		String url = "http://know.nifos.go.kr/know/service/mtweather/mountListPop.do";
-
-		ArrayList<MountainBaseModel> mArr = new ArrayList<MountainBaseModel>();
-		ArrayList<String> sArr = new ArrayList<String>();
-		ArrayList<MountainDetailModel> mdArr = new ArrayList<MountainDetailModel>();
-
-		try {
-			PrintWriter out = response.getWriter();
-
-			Document doc = Jsoup.connect(url).get();
-			request.setCharacterEncoding("utf-8");
-			Elements element = doc.select("table.tbl_data");
-
-			for (Element el : element.select("tr > td")) {
-				sArr.add(el.text());
-			}
-			sArr.remove(0);
-			sArr.remove(0);
-
-			for (int i = 0; i < sArr.size(); i += 3) {
-				mArr.add(new MountainBaseModel(sArr.get(i), sArr.get(i + 1), sArr.get(i + 2)));
-			}
-
-			// localArea 숫가 지역 매핑
-			String userArea = request.getParameter("selOne");
-			int localArea = -100;
-
-			if (userArea.equals("seoul"))
-				localArea = 1;
-			else if (userArea.equals("pusan"))
-				localArea = 3;
-			else if (userArea.equals("daejeon"))
-				localArea = 7;
-			else if (userArea.equals("ulsan"))
-				localArea = 8;
-			else if (userArea.equals("gyeonggi"))
-				localArea = 9;
-			else if (userArea.equals("gangwon"))
-				localArea = 10;
-			else if (userArea.equals("chungnam"))
-				localArea = 11;
-			else if (userArea.equals("chungbuk"))
-				localArea = 12;
-			else if (userArea.equals("jeonnam"))
-				localArea = 13;
-			else if (userArea.equals("jeonbuk"))
-				localArea = 14;
-			else if (userArea.equals("gyeongnam"))
-				localArea = 15;
-			else if (userArea.equals("gyeongbuk"))
-				localArea = 16;
-			else if (userArea.equals("jeju"))
-				localArea = 17;
-			else
-				System.out.println("localArea default 들어감. 선택해줘야 함");
-
-			int obsid = dbhandle.selectMountNum(test2);
-
-			// 산악기상데이터 API
-			String apiUrl = "http://know.nifos.go.kr/openapi/mtweather/mountListSearch.do?"
-					+ "keyValue=fCls08WS8%2BM1vGhZ79C0Yh2E%2Bzxa6XhdFviV3vJfSi4%3D&version=1.0&" + "localArea="
-					+ localArea + "&obsid=" + obsid;
-
-			doc = Jsoup.connect(apiUrl).get();
-			request.setCharacterEncoding("utf-8");
-			Elements mountainInfo = doc.select("outputData");
-
-			for (Element item : mountainInfo) {
-
-				String changeForm = "";
-				for (int i = 0; i < item.selectFirst("wd2mstr").text().length(); i++) {
-					if (item.selectFirst("wd2mstr").text().charAt(i) == 'E')
-						changeForm += "동";
-					else if (item.selectFirst("wd2mstr").text().charAt(i) == 'W')
-						changeForm += "서";
-					else if (item.selectFirst("wd2mstr").text().charAt(i) == 'S')
-						changeForm += "남";
-					else if (item.selectFirst("wd2mstr").text().charAt(i) == 'N')
-						changeForm += "북";
-					else {
-						changeForm += "?";
-						System.out.println("이상한 값");
-					}
-				}
-
-				mdArr.add(new MountainDetailModel(item.selectFirst("tm2m").text() + "˚C",
-						item.selectFirst("hm2m").text() + "%",
-						item.selectFirst("wd2mstr").text() + "(" + changeForm + "풍)",
-						item.selectFirst("ws2m").text() + "m/s"));
-
-			} // for문 끝
-		} catch (Exception e) {
-			System.out.println("에러메세지: " + e.getMessage());
 		}
 	}
 
@@ -439,11 +449,27 @@ public class HomeController {
 	@RequestMapping(value = "/geo1", method = RequestMethod.GET)
 	public void geo1Fn(HttpServletResponse response, HttpServletRequest request, @RequestParam("lat") String lat,
 			@RequestParam("lon") String lon) {
-		System.out.println(lat + " " + lon);
+		response.setContentType("text/html; charset=UTF-8");
+		try {
+			PrintWriter out = response.getWriter();
+			String jsonStr = dbhandle.selectNearMountain(Double.parseDouble(lat), Double.parseDouble(lon));
+			if (jsonStr != null) {
+				out.print(jsonStr);
+				out.flush();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	@RequestMapping(value = "/geo", method = RequestMethod.GET)
 	public String geoFn(HttpServletResponse response, HttpServletRequest request) {
 		return "geolocation";
+	}
+	
+	
+	@RequestMapping(value = "/geoview", method = RequestMethod.GET)
+	public String geoviewFn(HttpServletResponse response, HttpServletRequest request) {
+		return "near_view";
 	}
 }

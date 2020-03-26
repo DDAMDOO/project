@@ -9,11 +9,11 @@
 				<h3>Menu</h3>
 			</div>
 			<a class="nav-link" href="/app/">
-				<div class="sb-nav-link-icon"></div>MainPage
+				<div class="sb-nav-link-icon"></div><h4>MainPage</h4>
 			</a> <a class="nav-link collapsed" href="#" data-toggle="collapse"
 				data-target="#collapseMounts" aria-expanded="false"
 				aria-controls="collapseMounts">
-				<div class="sb-nav-link-icon"></div> Mountain Info
+				<div class="sb-nav-link-icon"></div> <h4>Mountain Info</h4>
 				<div class="sb-sidenav-collapse-arrow">
 					<i class="fas fa-angle-down"></i>
 				</div>
@@ -23,13 +23,13 @@
 				<nav class="sb-sidenav-menu-nested nav accordion"
 					id="sidenavAccordionPages">
 					<a class="nav-link" href="/app/mapinfo">
-						<div class="sb-nav-link-icon"></div>Mountain Info
+						<div class="sb-nav-link-icon"></div><h5>Info</h5>
 					</a> <a class="nav-link" href="/app/diff">
-						<div class="sb-nav-link-icon"></div>Mountain Search
+						<div class="sb-nav-link-icon"></div><h5>Search</h5>
 					</a> <a class="nav-link" href="/app/chart">
-						<div class="sb-nav-link-icon"></div>Mountain Accident
-					</a> <a class="nav-link" href="/app/">
-						<div class="sb-nav-link-icon"></div>Mountain Recommend
+						<div class="sb-nav-link-icon"></div><h5>Accident</h5>
+					</a> <a class="nav-link" href="/app/geoview">
+						<div class="sb-nav-link-icon"></div><h5>Recommend</h5>
 					</a>
 				</nav>
 			</div>
@@ -37,7 +37,7 @@
 			<a class="nav-link collapsed" href="#" data-toggle="collapse"
 				data-target="#collapsePages" aria-expanded="false"
 				aria-controls="collapsePages">
-				<div class="sb-nav-link-icon"></div> Member Info
+				<div class="sb-nav-link-icon"></div> <h4>Member Info</h4>
 				<div class="sb-sidenav-collapse-arrow">
 					<i class="fas fa-angle-down"></i>
 				</div>
@@ -48,7 +48,7 @@
 					id="sidenavAccordionPages">
 					<a class="nav-link collapsed" href="#" data-toggle="collapse"
 						data-target="#pagesCollapseAuth" aria-expanded="false"
-						aria-controls="pagesCollapseAuth">Authentication
+						aria-controls="pagesCollapseAuth"><h4>Authentication</h4>
 						<div class="sb-sidenav-collapse-arrow"></div>
 					</a>
 					<div class="collapse" id="pagesCollapseAuth"
@@ -56,17 +56,15 @@
 						<nav class="sb-sidenav-menu-nested nav">
 							<c:choose>
 								<c:when test="${not empty sessionScope.ses}">
-									<a class="nav-link" href="resources/resources_main/mypage.jsp">MyPage</a>
-									<a class="nav-link" href="getfav">My Favorite</a>
-									<a class="nav-link" href="logout">Logout</a>
+									<a class="nav-link" href="resources/resources_main/mypage.jsp"><h4>MyPage</h4></a>
+									<a class="nav-link" href="getfav"><h4>My Favorite</h4></a>
+									<a class="nav-link" href="logout"><h4>Logout</h4></a>
 								</c:when>
 								<c:otherwise>
-									<a class="nav-link" href="resources/resources_main/login.jsp">Login</a>
-							<a class="nav-link" href="resources/resources_main/register.jsp">Register</a>
+									<a class="nav-link" href="resources/resources_main/login.jsp"><h4>Login</h4></a>
+							<a class="nav-link" href="resources/resources_main/register.jsp"><h4>Register</h4></a>
 								</c:otherwise>
 							</c:choose>
-
-
 						</nav>
 					</div>
 

@@ -9,10 +9,10 @@
 <div style="color: #ffffff; margin-left: 1450px;">
 	<c:choose>
 		<c:when test="${not empty sessionScope.ses}">
-					${sessionScope.ses}님 환영합니다.
+					<h4>${sessionScope.ses}님 환영합니다.</h4>
 				</c:when>
 		<c:otherwise>
-					로그인을 해주세요.
+					<h4>로그인을 해주세요.</h4>
 				</c:otherwise>
 	</c:choose>
 </div>
