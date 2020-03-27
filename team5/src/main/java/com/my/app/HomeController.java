@@ -142,6 +142,8 @@ public class HomeController {
 		return "update";
 	}
 
+
+		
 	@RequestMapping(value = "/mapinfo", method = RequestMethod.GET)
 	public String testFn(HttpServletRequest request, Model model) {
 

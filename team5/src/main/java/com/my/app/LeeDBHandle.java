@@ -135,9 +135,6 @@ public class LeeDBHandle {
 	}
 
 	public String UpdateInfo(String id, String pw, String name, String birth, String email, String gender) {
-//		String sql = "update app_user set pw = '" + pw + "', name ='" + name + "',birth='" + birth + "',email='" + email
-//				+ "',gender='" + gender + "' where id = '" + id + "';";
-
 		String sql = "update app_user set pw = ?, user_name =?,birth=?,email=?,gender=? where user_id = ?";
 		try {
 			System.out.println("update ready");
@@ -226,8 +223,6 @@ public class LeeDBHandle {
 			pstmt = conn.prepareStatement(sql);
 
 			rs = pstmt.executeQuery();
-
-			System.out.println("로그로그" + lat + " " + lon);
 
 			while (rs.next()) {
 				JSONObject o = new JSONObject();
@@ -356,7 +351,7 @@ public class LeeDBHandle {
 				pstmt.setString(1, id);
 				pstmt.setString(2, climb_code);
 				pstmt.execute();
-				pstmt.close();
+				pstmt.close(); 	
 				rs.close();
 				return "삭제 성공";
 			} else if ((mycase == 2) && (a == 0)) {

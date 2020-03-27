@@ -89,8 +89,8 @@
 			$("#weatherResultTr")
 					.append(
 							'<td>' + data.name + '</td><td>' + data.temp
-									+ '</td><td>' + data.chegam + '</td><td>'
-									+ data.seupdo + '</td>')
+									+ '°C</td><td>' + data.chegam + '°C</td><td>'
+									+ data.seupdo + '%</td>')
 		}
 
 		function weather() {

@@ -16,15 +16,17 @@
 	var avg_lat = 0
 	var avg_lon = 0
 
-	function asdf() {
+	function gps_origin() {
 		// Geolocation 객체를 사용
 		navigator.geolocation.getCurrentPosition(function(position) {
 			// 위치를 가져오는데 성공할 경우
-			lat = position.coords.latitude
-			lon = position.coords.longitude
+			/* 			lat = position.coords.latitude
+			 lon = position.coords.longitude */
 
-/* 			lat = 33.407003
-			lon = 126.561696 */
+			lat = 37.5030042
+			lon = 127.0507571
+			/* 			lat = 33.407003
+			 lon = 126.561696 */
 			console.log("asdf fn", lat, lon)
 			/* $.getJSON("geo1",{'lat':lat, 'lon':lon} */
 			$.getJSON("geo1", {
@@ -33,8 +35,27 @@
 			}, nearMt)
 		}, function(error) {
 			// 위치를 가져오는데 실패한 경우
-			consol.log(error.message);
+			console.log(error.message);
 		});
+	}
+
+	function gps() {
+		// Geolocation 객체를 사용
+
+		// 위치를 가져오는데 성공할 경우
+		/* 			lat = position.coords.latitude
+		 lon = position.coords.longitude */
+
+		lat = 37.5030042
+		lon = 127.0507571
+		/* 			lat = 33.407003
+		 lon = 126.561696 */
+		console.log("asdf fn", lat, lon)
+		/* $.getJSON("geo1",{'lat':lat, 'lon':lon} */
+		$.getJSON("geo1", {
+			'lat' : lat,
+			'lon' : lon
+		}, nearMt)
 	}
 	function nearMt(arr) {
 
@@ -85,7 +106,7 @@
 </script>
 </head>
 
-<body onload="asdf()">
-	<div id="map" style="width: 800px; height: 800px; text-align: center;"></div>
+<body onload="gps()">
+	<div id="map" style="width: 80%; height: 80%; text-align: center;"></div>
 </body>
 </html>
