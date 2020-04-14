@@ -1,21 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd">
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd">
+
+	<!-- Root Context: defines shared resources visible to all other web components -->
+	<context:component-scan
+		base-package="com.my.app" />
+
+
 	<bean
 		class="org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor"></bean>
 
-	<bean id="dataSource"
+<!-- 	<bean id="dataSource"
 		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-		<!-- <property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"></property> 
-			<property name="url" value="jdbc:oracle:thin:@10.10.35.114:1521:prod"></property> -->
+		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"></property> 
+			<property name="url" value="jdbc:oracle:thin:@10.10.35.114:1521:prod"></property>
 		<property name="driverClassName"
 			value="net.sf.log4jdbc.sql.jdbcapi.DriverSpy" />
 		<property name="url"
-			value="jdbc:log4jdbc:mysql://10.10.35.114:1521/mess?allowPublicKeyRetrieval=true&amp;useSSL=false&amp;serverTimezone=UTC" />
+			value="jdbc:log4jdbc:oracle://10.10.35.114:1521/mess?allowPublicKeyRetrieval=true&amp;useSSL=false&amp;serverTimezone=UTC" />
 		<property name="username" value="scott"></property>
 		<property name="password" value="tiger"></property>
 	</bean>
-
+ -->
+ 
+ 	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		
+		<!-- <property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"></property>
+		<property name="url" value="jdbc:oracle:thin:@10.10.35.186:1521:prod"></property> -->
+		<property name="driverClassName" value="net.sf.log4jdbc.sql.jdbcapi.DriverSpy"></property>
+		<!-- <property name="url" value="jdbc:log4jdbc:oracle:thin:@172.30.1.14:1521:prod"></property> -->
+		<property name="url" value="jdbc:log4jdbc:oracle:thin:@10.10.35.99:1521:prod"></property>
+		<property name="username" value="scott"></property>
+		<property name="password" value="tiger"></property>
+	</bean>
+	<bean id="dbhandle" class="com.my.app.LeeDBHandle"></bean>
 	<!-- Root Context: defines shared resources visible to all other web components -->
 </beans>

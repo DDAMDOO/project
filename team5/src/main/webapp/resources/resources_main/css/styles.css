@@ -4379,7 +4379,7 @@ input[type=button].btn-block {
 .card-header {
   padding: 0.75rem 1.25rem;
   margin-bottom: 0;
-  background-color: rgba(0, 0, 0, 0.03);
+  background-color: rgba(85,255,51, 0.03);
   border-bottom: 1px solid rgba(0, 0, 0, 0.125);
 }
 .card-header:first-child {
@@ -4391,7 +4391,7 @@ input[type=button].btn-block {
 
 .card-footer {
   padding: 0.75rem 1.25rem;
-  background-color: rgba(0, 0, 0, 0.03);
+  background-color: rgba(85,255,51, 0.03);
   border-top: 1px solid rgba(0, 0, 0, 0.125);
 }
 .card-footer:last-child {
@@ -6070,6 +6070,12 @@ a.close.disabled {
   background-color: #66ff00 !important;
 }
 
+.bg-img {
+  /* background-color: #007bff !important; */
+  background-image:url("../img/mountain.jpg") !important;
+  background-size: cover;
+}
+
 a.bg-primary:hover, a.bg-primary:focus,
 button.bg-primary:hover,
 button.bg-primary:focus {
@@ -6127,7 +6133,8 @@ button.bg-danger:focus {
 }
 
 .bg-light {
-  background-color: #f8f9fa !important;
+  /* background-color: #f8f9fa !important; */
+    background-color: rgba(0,0,0, 0.3) !important;
 }
 
 a.bg-light:hover, a.bg-light:focus,
@@ -6138,6 +6145,10 @@ button.bg-light:focus {
 
 .bg-dark {
   background-color: #343a40 !important;
+}
+
+.bg-green {
+  background-color: #009900 !important;
 }
 
 a.bg-dark:hover, a.bg-dark:focus,
@@ -10104,7 +10115,8 @@ body {
   margin: 0;
 }
 .sb-topnav.navbar-dark #sidebarToggle {
-  color: rgba(255, 255, 255, 0.5);
+  /* color: rgba(255, 255, 255, 0.5); */
+  color: rgba(7, 114, 0, 0.5);
 }
 .sb-topnav.navbar-light #sidebarToggle {
   color: #212529;
@@ -10157,11 +10169,17 @@ body {
 }
 
 .sb-sidenav-dark {
+  /* background-color: #212529; */
+  background-color: #00854a;
+  color: rgba(255, 255, 255, 0.5);
+}
+.sb-sidenav-green {
   background-color: #212529;
   color: rgba(255, 255, 255, 0.5);
 }
+
 .sb-sidenav-dark .sb-sidenav-menu .sb-sidenav-menu-heading {
-  color: rgba(255, 255, 255, 0.25);
+  color: rgba(255, 255, 255, 1);
 }
 .sb-sidenav-dark .sb-sidenav-menu .nav-link {
   color: rgba(255, 255, 255, 0.5);

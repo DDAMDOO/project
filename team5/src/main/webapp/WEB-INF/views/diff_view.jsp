@@ -15,7 +15,7 @@
 <meta name="author" content="" />
 <title>Team Project by 2020 TMC</title>
 <link
-	href="${pageContext.request.contextPath}/resources/resources_main/css/styles.css"
+	href="${pageContext.request.contextPath}/resources/resources_main/css/styles.css?1"
 	rel="stylesheet">
 <link
 	href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css"
@@ -35,9 +35,16 @@
 			<%@ include file="../../resources/resources_main/content/lefter.jsp"%>
 		</div>
 		<div id="layoutSidenav_content">
-
-			<div class="card-body" style="text-align: center;">
-				<%@ include file="../../resources/resources_main/content/main.jsp"%>
+			<div style="text-align: center; height: 100%; weight: 100%;">
+				<div class="card mb-4"
+					style="text-align: center; height: 100%; weight: 100%;">
+					<div class="card-header" style="background-color:rgba(85,255,51, 0.03);">
+						<h3>산 추천</h3>
+					</div>
+					<div class="card-body">
+						<%@ include file="../../WEB-INF/views/diff.jsp"%>
+					</div>
+				</div>
 			</div>
 			<footer class="py-4 bg-light mt-auto">
 				<%@ include file="../../resources/resources_main/content/footer.jsp"%>
@@ -46,10 +53,7 @@
 	</div>
 
 	<script src="<c:url value="/resources/resources_main/js/scripts.js"/>"></script>
-	<script
-		src="<c:url value="/resources/resources_main/assets/demo/chart-area-demo.js"/>"></script>
-	<script
-		src="<c:url value="/resources/resources_main/assets/demo/chart-bar-demo.js"/>"></script>
+
 	<script
 		src="<c:url value="/resources/resources_main/assets/demo/datatables-demo.js"/>"></script>
 	<script src="https://code.jquery.com/jquery-3.4.1.min.js"
@@ -57,14 +61,6 @@
 	<script
 		src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"
 		crossorigin="anonymous"></script>
-	<script
-		src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js"
-		crossorigin="anonymous"></script>
-	<script
-		src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"
-		crossorigin="anonymous"></script>
-	<script
-		src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"
-		crossorigin="anonymous"></script>
+
 </body>
 </html>

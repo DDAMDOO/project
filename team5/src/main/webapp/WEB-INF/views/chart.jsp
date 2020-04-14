@@ -35,9 +35,16 @@
 			<%@ include file="../../resources/resources_main/content/lefter.jsp"%>
 		</div>
 		<div id="layoutSidenav_content">
-
-			<div class="card-body" style="text-align: center;">
-				<%@ include file="../../resources/resources_main/content/main.jsp"%>
+			<div style="text-align: center; height: 100%; weight: 100%;">
+				<div class="card mb-4"
+					style="text-align: center; height: 100%; weight: 100%;">
+					<div class="card-header">
+						<h3>산악 사고 현황</h3>
+					</div>
+					<div class="card-body" style="text-align:center;">
+						<%@ include file="../../WEB-INF/views/piechart.jsp"%>
+					</div>
+				</div>
 			</div>
 			<footer class="py-4 bg-light mt-auto">
 				<%@ include file="../../resources/resources_main/content/footer.jsp"%>

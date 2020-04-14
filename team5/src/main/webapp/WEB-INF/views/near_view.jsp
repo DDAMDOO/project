@@ -35,9 +35,16 @@
 			<%@ include file="../../resources/resources_main/content/lefter.jsp"%>
 		</div>
 		<div id="layoutSidenav_content">
-
-			<div class="card-body" style="text-align: center;">
-				<%@ include file="../../resources/resources_main/content/main.jsp"%>
+			<div style="text-align: center; height: 100%; weight: 100%;">
+				<div class="card mb-4"
+					style="text-align: center; height: 100%; weight: 100%;">
+					<div class="card-header">
+						<h3>근처 산 정보</h3>
+					</div>
+					<div class="card-body" style="text-align:center;">
+						<%@ include file="../../WEB-INF/views/geolocation.jsp"%>
+					</div>
+				</div>
 			</div>
 			<footer class="py-4 bg-light mt-auto">
 				<%@ include file="../../resources/resources_main/content/footer.jsp"%>
@@ -46,10 +53,7 @@
 	</div>
 
 	<script src="<c:url value="/resources/resources_main/js/scripts.js"/>"></script>
-	<script
-		src="<c:url value="/resources/resources_main/assets/demo/chart-area-demo.js"/>"></script>
-	<script
-		src="<c:url value="/resources/resources_main/assets/demo/chart-bar-demo.js"/>"></script>
+
 	<script
 		src="<c:url value="/resources/resources_main/assets/demo/datatables-demo.js"/>"></script>
 	<script src="https://code.jquery.com/jquery-3.4.1.min.js"
